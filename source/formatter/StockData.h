@@ -1,15 +1,16 @@
 #pragma once
 #include <string>
 
-enum class dataElement { date, open, low, adj, close, volume };
+enum class dataElement { date, open, high, low, adjClose, close, volume };
 
 class StockData {
 private:
   std::string date;
   std::string open;
+  std::string high;
   std::string low;
-  std::string adj;
   std::string close;
+  std::string adjClose;
   std::string volume;
 
 public:

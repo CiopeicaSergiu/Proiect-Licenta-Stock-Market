@@ -15,10 +15,11 @@ StockData::StockData(const std::string &data) {
 
   date = result[0];
   open = result[1];
-  low = result[2];
-  adj = result[3];
+  high = result[2];
+  low = result[3];
   close = result[4];
-  volume = result[5];
+  adjClose = result[5];
+  volume = result[6];
 }
 
 auto StockData::getElement(dataElement element) const -> std::string {
@@ -28,12 +29,14 @@ auto StockData::getElement(dataElement element) const -> std::string {
     return date;
   case dataElement::open:
     return open;
+  case dataElement::high:
+    return high;
   case dataElement::low:
     return low;
-  case dataElement::adj:
-    return adj;
   case dataElement::close:
     return close;
+  case dataElement::adjClose:
+    return adjClose;
   case dataElement::volume:
     return volume;
   default:

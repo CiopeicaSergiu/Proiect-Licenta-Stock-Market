@@ -8,14 +8,15 @@ auto DataFormater::getHeaderFormat(formatingType typeOfFormating)
     -> std::string {
   switch (typeOfFormating) {
   case formatingType::csv:
-    return "Date,Open,High,Low,Close,Volume\n";
+    return "Date,Open,High,Low,Close,Adj Close,Volume\n";
   default:
     return "-----------------------------------------------------"
-           "--------------------------------------------------\n"
+           "-------------------------------------------------------------------"
+           "\n"
            "| Date           | Open           | High           | Low           "
-           " | Close          | Volume         "
+           " | Close          | Adj Close      | Volume         "
            "|\n----------------------------------------------------------------"
-           "---------------------------------------\n";
+           "--------------------------------------------------------\n";
   }
 }
 
@@ -24,9 +25,9 @@ auto DataFormater::getRowFormat(formatingType typeOfFormating) -> std::string {
   case formatingType::csv:
     return "{},{},{},{},{},{}";
   default:
-    return "| {:<14} | {:<14} | {:<14} | {:<14} | {:<14} | {:<14} |\n"
+    return "| {:<14} | {:<14} | {:<14} | {:<14} | {:<14} | {:<14} | {:<14} |\n"
            "-------------------------------------------------------------------"
-           "------------------------------------\n";
+           "-----------------------------------------------------\n";
   }
 }
 
@@ -45,8 +46,9 @@ auto DataFormater::formatData(const std::vector<StockData> &stockDataArray,
                   fmt::format_to(itBuffer, rowFormat,
                                  stockData.getElement(dataElement::date),
                                  stockData.getElement(dataElement::open),
+                                 stockData.getElement(dataElement::high),
                                  stockData.getElement(dataElement::low),
-                                 stockData.getElement(dataElement::adj),
+                                 stockData.getElement(dataElement::adjClose),
                                  stockData.getElement(dataElement::close),
                                  stockData.getElement(dataElement::volume));
                 });
