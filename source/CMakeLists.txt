@@ -6,14 +6,21 @@ add_executable(${PROJECT_NAME} main.cpp)
 
 add_subdirectory(../external/curlpp ../external/curlpp)
 add_subdirectory(../external/nlohmann ../external/nlohmann)
-
+add_subdirectory(../external/fmtlib ../external/fmtlib)
+add_subdirectory(formatter)
 target_include_directories(${PROJECT_NAME} PUBLIC ../external/curlpp/include
                                            PUBLIC ../external/boost
-                                           PUBLIC ../external/nlohmann)
+                                           PUBLIC ../external/nlohmann
+                                           PUBLIC ../external/fmtlib)
 
 target_link_directories(${PROJECT_NAME} PRIVATE ../external/curlpp
                                         PRIVATE ../external/boost/stage/lib
-                                        PRIVATE ../external/nlohmann/include)
+                                        PRIVATE ../external/nlohmann/include
+                                        PRIVATE ../external/fmtlib/include)
 
-target_link_libraries(${PROJECT_NAME} curlpp ${Boost_LIBRARIES} nlohmann_json::nlohmann_json)
+target_link_libraries(${PROJECT_NAME} 
+                        curlpp 
+                        ${Boost_LIBRARIES} 
+                        nlohmann_json::nlohmann_json 
+                        fmt::fmt formatter)
 
