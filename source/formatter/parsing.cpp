@@ -1,7 +1,6 @@
 #include "parsing.h"
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
-#include <boost/range/algorithm_ext/erase.hpp>
 #include <iterator>
 #include <stdexcept>
 

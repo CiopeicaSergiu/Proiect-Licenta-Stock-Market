@@ -1,11 +1,15 @@
 
 // uses curlpp, boost
+#include "converter/TimeConverter.h"
 #include "formatter/DataFormater.h"
 #include "formatter/parsing.h"
+#include <ctime>
 #include <curlpp/Options.hpp>
 #include <curlpp/cURLpp.hpp>
 #include <iostream>
 #include <sstream>
+
+using namespace converter::dateTime;
 int main() {
   // RAII cleanup
 
@@ -25,5 +29,11 @@ int main() {
   const auto stocksData = parsing::parseStockData(information);
   auto formater = DataFormater();
   std::cout << formater.formatData(stocksData, formatingType::table);
+  std::time_t result = std::time(nullptr);
+
+  auto date1 = std::asctime(std::localtime(&result));
+  auto unixTime2 = dateToUnixTime(date1);
+  auto date2 = std::asctime(std::localtime(&unixTime2));
+  std::cout << date1 << result << std::endl << date2 << unixTime2 << std::endl;
   return 0;
 }
