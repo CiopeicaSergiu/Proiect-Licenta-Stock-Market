@@ -6,7 +6,8 @@
 #include <stdexcept>
 
 auto converter::dateTime::unixTimeToDate(time_t unixTime) -> std::string {
-  return "";
+  setenv("TZ", "", 1);
+  return std::asctime(std::localtime(&unixTime));
 }
 
 auto converter::dateTime::dateToUnixTime(const std::string &date) -> time_t {

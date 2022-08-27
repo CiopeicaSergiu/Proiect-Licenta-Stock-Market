@@ -29,21 +29,17 @@ int main() {
   const auto stocksData = parsing::parseStockData(information);
   auto formater = DataFormater();
   std::cout << formater.formatData(stocksData, formatingType::table);
-  std::time_t result = std::time(nullptr);
 
-  auto date1 = std::asctime(std::localtime(&result));
-  // auto date1 = std::string{"Wed Sep 22 10:27:52 2011"};
-  auto unixTime1 = dateToUnixTime(date1);
-  auto date2 = std::asctime(std::localtime(&unixTime1));
-  auto unixTime2 = dateToUnixTime(date2);
+  std::time_t unixTime1 = std::time(nullptr);
 
-  std::tm local = *std::localtime(&unixTime2);
+  auto date1 = unixTimeToDate(unixTime1);
+  auto unixTime2 = dateToUnixTime(date1);
+  auto date2 = unixTimeToDate(unixTime2);
 
   std::cout << unixTime1 << std::endl
             << date1 << std::endl
             << unixTime2 << std::endl
             << date2 << std::endl;
 
-  std::cout << "local: " << std::put_time(&local, "%c %Z") << '\n';
   return 0;
 }
