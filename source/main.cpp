@@ -1,6 +1,7 @@
 
 // uses curlpp, boost
 #include "converter/TimeConverter.h"
+#include "data/StockData.h"
 #include "formatter/DataFormater.h"
 #include "formatter/parsing.h"
 #include <ctime>
@@ -26,13 +27,13 @@ int main() {
   osBuffer << curlpp::options::Url(urlStrig);
 
   const auto information = osBuffer.str();
-  const auto stocksData = parsing::parseStockData(information);
+  auto stocksData = parsing::parseStockData(information);
   auto formater = DataFormater();
   std::cout << formater.formatData(stocksData, formatingType::table);
 
   std::time_t unixTime1 = std::time(nullptr);
 
-  auto date1 = unixTimeToDate(unixTime1);
+  auto date1 = std::string{"Wed Aug  3 10:19:46 2022"};
   auto unixTime2 = dateToUnixTime(date1);
   auto date2 = unixTimeToDate(unixTime2);
 

@@ -13,7 +13,7 @@ StockData::StockData(const std::string &data) {
     throw std::runtime_error{"Data is missing or not formatted properly!"};
   }
 
-  date = result[0];
+  date = Date(result[0]);
   open = result[1];
   high = result[2];
   low = result[3];
@@ -22,11 +22,11 @@ StockData::StockData(const std::string &data) {
   volume = result[6];
 }
 
-auto StockData::getElement(dataElement element) const -> std::string {
+auto StockData::getElement(dataElement element) -> std::string {
 
   switch (element) {
   case dataElement::date:
-    return date;
+    return date.getDate();
   case dataElement::open:
     return open;
   case dataElement::high:

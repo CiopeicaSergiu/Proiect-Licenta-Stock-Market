@@ -1,5 +1,5 @@
 #pragma once
-#include "StockData.h"
+#include "../data/StockData.h"
 #include <string>
 #include <vector>
 

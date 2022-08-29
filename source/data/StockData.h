@@ -1,11 +1,14 @@
 #pragma once
+#include "Date.h"
+#include <map>
 #include <string>
 
 enum class dataElement { date, open, high, low, adjClose, close, volume };
 
 class StockData {
 private:
-  std::string date;
+  static const std::map<std::string, size_t> months;
+  Date date;
   std::string open;
   std::string high;
   std::string low;
@@ -15,5 +18,5 @@ private:
 
 public:
   StockData(const std::string &data);
-  auto getElement(dataElement element) const -> std::string;
+  auto getElement(dataElement element) -> std::string;
 };

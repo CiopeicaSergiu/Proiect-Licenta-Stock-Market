@@ -1,5 +1,5 @@
 #pragma once
-#include "StockData.h"
+#include "../data/StockData.h"
 #include <string>
 #include <utility>
 #include <vector>
@@ -12,6 +12,6 @@ private:
   auto getRowFormat(formatingType typeOfFormating) -> std::string;
 
 public:
-  auto formatData(const std::vector<StockData> &stockDataArray,
-                  formatingType type) -> std::string;
+  auto formatData(std::vector<StockData> &stockDataArray, formatingType type)
+      -> std::string;
 };

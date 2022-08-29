@@ -10,14 +10,20 @@ auto converter::dateTime::unixTimeToDate(time_t unixTime) -> std::string {
   return std::asctime(std::localtime(&unixTime));
 }
 
-auto converter::dateTime::dateToUnixTime(const std::string &date) -> time_t {
+auto converter::dateTime::dateToUnixTime(std::string date) -> time_t {
 
   setenv("TZ", "", 1);
   std::tm timeinfo{};
 
-  std::map<std::string, size_t> months = {
+  static const std::map<std::string, size_t> months = {
       {"Jan", 0}, {"Feb", 1}, {"Mar", 2}, {"Apr", 3}, {"May", 4},  {"Jun", 5},
       {"Jul", 6}, {"Aug", 7}, {"Sep", 8}, {"Oct", 9}, {"Nov", 10}, {"Dec", 11}};
+
+  const auto posDoubleSpace = date.find("  ");
+
+  if (posDoubleSpace != std::string::npos) {
+    date.erase(posDoubleSpace, 1);
+  }
 
   std::vector<std::string> splitedDate;
   boost::split(splitedDate, date, boost::is_any_of(" :"));

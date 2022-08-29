@@ -10,6 +10,7 @@ add_subdirectory(../external/fmtlib ../external/fmtlib)
 add_subdirectory(../external/date ../external/date)
 add_subdirectory(formatter)
 add_subdirectory(converter)
+add_subdirectory(data)
 target_include_directories(${PROJECT_NAME} PUBLIC ../external/curlpp/include
                                            PUBLIC ../external/boost
                                            PUBLIC ../external/nlohmann
@@ -29,5 +30,6 @@ target_link_libraries(${PROJECT_NAME}
                         fmt::fmt 
                         formatter 
                         converter
-                        date::date)
+                        date::date
+                        data)
 

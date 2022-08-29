@@ -31,7 +31,7 @@ auto DataFormater::getRowFormat(formatingType typeOfFormating) -> std::string {
   }
 }
 
-auto DataFormater::formatData(const std::vector<StockData> &stockDataArray,
+auto DataFormater::formatData(std::vector<StockData> &stockDataArray,
                               formatingType type) -> std::string {
 
   auto buffer = fmt::memory_buffer{};
