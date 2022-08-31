@@ -42,10 +42,11 @@ std::string Date::formatDate(const std::string &dateInput) {
 
   auto buffer = fmt::memory_buffer{};
 
-  fmt::format_to(std::back_inserter(buffer), dateTamplate, itMonth->second, day,
+  fmt::format_to(std::back_inserter(buffer), dateTamplate, itMonth->first, day,
                  year);
 
-  return fmt::to_string(buffer);
+  return converter::dateTime::unixTimeToDate(
+      converter::dateTime::dateToUnixTime(fmt::to_string(buffer)));
 }
 
 long Date::getUnixTimeStamp() {

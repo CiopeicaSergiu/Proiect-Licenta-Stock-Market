@@ -2,16 +2,18 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/classification.hpp>
 #include <ctime>
+#include <iostream>
 #include <map>
 #include <stdexcept>
 
 auto converter::dateTime::unixTimeToDate(time_t unixTime) -> std::string {
   setenv("TZ", "", 1);
-  return std::asctime(std::localtime(&unixTime));
+  std::string date = std::asctime(std::localtime(&unixTime));
+  return date.substr(0, date.size() - 1);
 }
 
 auto converter::dateTime::dateToUnixTime(std::string date) -> time_t {
-
+  std::cout << date << std::endl;
   setenv("TZ", "", 1);
   std::tm timeinfo{};
 
