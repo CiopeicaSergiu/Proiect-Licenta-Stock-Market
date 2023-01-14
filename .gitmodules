@@ -11,3 +11,6 @@
 [submodule "external/date"]
 	path = external/date
 	url = https://github.com/HowardHinnant/date.git
+[submodule "external/restbed"]
+	path = external/restbed
+	url = https://github.com/Corvusoft/restbed.git

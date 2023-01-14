@@ -22,6 +22,7 @@ StockData::StockData(const std::string &data) {
   volume = result[6];
 }
 
+// tag dispatch
 auto StockData::getElement(dataElement element) -> std::string {
 
   switch (element) {
