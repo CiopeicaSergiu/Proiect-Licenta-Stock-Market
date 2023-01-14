@@ -69,13 +69,18 @@ Server::Server() {
 Server::~Server() { close(serverSocketDescriptor); }
 
 void Server::startServer() {
-
+  std::vector<sockaddr_in> connectionsConfigurations;
   while (true) {
     // Grab a connection from the queue
-    // struct sockaddr_in socketConfigurationClient;
-    // auto addrlen = sizeof(sockaddr);
+    struct sockaddr_in socketConfigurationClient;
+    auto addrlen = sizeof(sockaddr);
 
-    const auto connection = accept(serverSocketDescriptor, NULL, NULL);
+    const auto connection =
+        accept(serverSocketDescriptor,
+               reinterpret_cast<sockaddr *>(&socketConfigurationClient),
+               reinterpret_cast<socklen_t *>(&addrlen));
+
+    connectionsConfigurations.push_back(socketConfigurationClient);
 
     if (connection >= 0) {
       std::cout << "Connection enstablished" << std::endl;

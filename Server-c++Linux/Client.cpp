@@ -8,15 +8,29 @@ namespace utilities::conectivity {
 
 void Client::startConnectionForClient() {
   std::string message{"Connection enstablished!"};
-  while (not isErrorEncountered(sendMessage(message))) {
+  sendMessage(message);
+  bool isWarning = false;
+  while (true) { // not isErrorEncountered(sendMessage(message))) {
+
+    // if (not isWarning) {
     message = receiveMessage();
-    std::cout << "Loop on connection: " << connectionIdentifier << std::endl;
+    //}
+
+    // if (not message.empty()) {
+    isWarning = isWarningEncountered(sendMessage(message));
+    // }
+    // std::cout << "Loop on connection: " << connectionIdentifier << std::endl;
   }
+
   std::cout << "Connection is closed!" << std::endl;
   close(connectionIdentifier);
 }
 
 bool Client::isErrorEncountered(const ssize_t status) { return status == -1; }
+
+bool Client::isWarningEncountered(const ssize_t status) {
+  return status == EWOULDBLOCK or status == EAGAIN;
+}
 
 std::string Client::receiveMessage() {
 
@@ -25,7 +39,7 @@ std::string Client::receiveMessage() {
 
   const auto bytesRead = read(connectionIdentifier, buffer, 100);
   std::cout << "Message received: " << buffer << std::endl;
-  if (isErrorEncountered(bytesRead)) {
+  if (isErrorEncountered(bytesRead) || isWarningEncountered(bytesRead)) {
     return "";
   }
   // do {

@@ -7,6 +7,7 @@ private:
   const int connectionIdentifier;
   std::thread clientThread;
   bool isErrorEncountered(const ssize_t status);
+  bool isWarningEncountered(const ssize_t status);
 
 public:
   explicit Client(const int connIdt);
