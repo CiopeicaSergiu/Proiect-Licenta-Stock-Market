@@ -5,7 +5,7 @@ target_include_directories(service PUBLIC ../../external/restbed/distribution/in
                                           ../converter
                                           ../formatter
                                           ../external/curlpp/include
-                                          ../external/date)
+                                          ../external/date/include)
 
 target_link_directories(service PRIVATE ../../external/restbed/distribution/library
                                         ./../builddir/converter

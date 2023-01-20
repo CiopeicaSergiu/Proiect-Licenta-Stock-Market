@@ -10,7 +10,9 @@ add_subdirectory(../external/fmtlib ../external/fmtlib)
 add_subdirectory(../external/date ../external/date)
 add_subdirectory(../external/restbed ../external/restbed)
 
-add_subdirectory(Server-c++Linux)
+add_subdirectory(formatter)
+add_subdirectory(converter)
+add_subdirectory(data)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ../external/curlpp/include
                                            PUBLIC ../external/boost
@@ -32,4 +34,6 @@ target_link_libraries(${PROJECT_NAME}
                         nlohmann_json::nlohmann_json 
                         fmt::fmt 
                         date::date
-                        service)
+                        data
+                        restbed)
+
