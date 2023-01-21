@@ -39,7 +39,7 @@ void StockDataService::eventGetStockData(
   std::string result = formater.formatData(stocksData, formatingType::table);
 
   session->close(restbed::OK, result,
-                 {{"Content-Length", std::to_string(result.size())},
+                 {{"Content-Length", std::to_string(result.size()).c_str()},
                   {"Connection", "close"}});
 }
 
