@@ -1,6 +1,7 @@
 #include "parsing.h"
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
+#include <iostream>
 #include <iterator>
 #include <stdexcept>
 
@@ -20,6 +21,8 @@ auto parsing::parseStockData(std::string stringData) -> std::vector<StockData> {
 
   std::vector<std::string> splitedData;
   boost::split(splitedData, stringData, boost::is_any_of(splitAfter));
+  std::cout << "Lines in tables " << splitedData.size() << "\nLine "
+            << splitedData[0] << "\n";
 
   if (splitedData.size() < 2) {
     throw std::runtime_error{"Format not suported"};

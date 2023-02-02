@@ -1,3 +1,3 @@
 #! /bin/sh
 
-cmake -S ./ -B builddir
+cmake -S source -B builddir

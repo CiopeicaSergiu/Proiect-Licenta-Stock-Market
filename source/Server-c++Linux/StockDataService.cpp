@@ -3,12 +3,15 @@
 #include "../data/StockData.h"
 #include "../formatter/DataFormater.h"
 #include "../formatter/parsing.h"
+#include "../request/RequestStockData.h"
 #include <ctime>
 #include <curlpp/Options.hpp>
 #include <curlpp/cURLpp.hpp>
 #include <iomanip>
 #include <restbed>
 #include <sstream>
+
+#include <iostream>
 
 void StockDataService::setEventGetStockData(
     std::shared_ptr<restbed::Resource> &resource) {
@@ -23,21 +26,23 @@ void StockDataService::eventGetStockData(
     std::shared_ptr<restbed::Session> session) {
 
   curlpp::Cleanup myCleanup;
-
   // Send request and get a result.
   // Here I use a shortcut to get it in a string stream ...
-  std::string urlStrig{"https://query1.finance.yahoo.com/v7/finance/download/"
-                       "goog?period1=1641059569&period2=1641579977&interval=1d&"
-                       "includeAdjustedClose=true"};
+  RequestStockData requestGoogle("goog");
 
-  std::ostringstream osBuffer;
-  osBuffer << curlpp::options::Url(urlStrig);
+  const uint64_t start = 1641059569;
+  const uint64_t stop = 1641579977;
 
-  const auto information = osBuffer.str();
-  auto stocksData = parsing::parseStockData(information);
+  std::cout << "start: " << converter::dateTime::unixTimeToDate(start) << "\n";
+  std::cout << "stop: " << converter::dateTime::unixTimeToDate(stop) << "\n";
+
+  auto data = requestGoogle.requestStockData(start, stop, "1d");
+  auto stocksData = parsing::parseStockData(data);
+
   auto formater = DataFormater();
-  std::string result = formater.formatData(stocksData, formatingType::table);
 
+  const std::string result =
+      formater.formatData(stocksData, formatingType::table);
   session->close(restbed::OK, result,
                  {{"Content-Length", std::to_string(result.size()).c_str()},
                   {"Connection", "close"}});
