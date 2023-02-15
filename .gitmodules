@@ -5,6 +5,11 @@
 [submodule "external/nlohmann"]
 	path = external/nlohmann
 	url = https://github.com/nlohmann/json.git
+
+[submodule "external/boost"]
+	path = external/boost
+	url = https://github.com/boostorg/boost.git
+
 [submodule "external/fmtlib"]
 	path = external/fmtlib
 	url = https://github.com/fmtlib/fmt.git
