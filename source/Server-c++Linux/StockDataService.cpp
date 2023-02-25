@@ -14,47 +14,50 @@
 #include <iostream>
 
 void StockDataService::setEventGetStockData(
-    std::shared_ptr<restbed::Resource> &resource)
-{
-    resource->set_path("/{stockName: .*}");
-    resource->set_method_handler(
-        "GET", [this](std::shared_ptr<restbed::Session> session)
-        { eventGetStockData(session); });
+    std::shared_ptr<restbed::Resource> &resource) {
+  resource->set_path("/{stockName: .*}");
+  resource->set_method_handler(
+      "GET", [this](std::shared_ptr<restbed::Session> session) {
+        eventGetStockData(session);
+      });
 }
 
-void StockDataService::sendResponseAndCloseSession( std::shared_ptr<restbed::Session>& session, const std::string& result)
-{
-        session->close(restbed::OK, result,
-                   {{"Content-Length", std::to_string(result.size()).c_str()},
-                    {"Connection", "close"}});
+void StockDataService::sendResponseAndCloseSession(
+    std::shared_ptr<restbed::Session> &session, const std::string &result) {
+  session->close(restbed::OK, result,
+                 {{"Content-Length", std::to_string(result.size()).c_str()},
+                  {"Connection", "close"}});
 }
 
 void StockDataService::eventGetStockData(
-    std::shared_ptr<restbed::Session> session)
-{
+    std::shared_ptr<restbed::Session> session) {
 
-    const auto request = session->get_request();
+  const auto request = session->get_request();
 
-    const auto stockName = request->get_path_parameter("stockName");
-    const auto startTime = request->get_query_parameter("startTime");
-    const auto endTime = request->get_query_parameter("endTime");
+  const auto stockName = request->get_path_parameter("stockName");
+  const auto startTime = request->get_query_parameter("startTime");
+  const auto endTime = request->get_query_parameter("endTime");
 
-    curlpp::Cleanup myCleanup;
-    RequestStockData requestGoogle(stockName);
+  curlpp::Cleanup myCleanup;
+  RequestStockData requestGoogle(stockName);
 
-    // const uint64_t start = 1641059569;
-    // const uint64_t stop = 1641579977;
-    const auto startTimeUnix = converter::dateTime::dateToUnixTime(startTime);
-    const auto endTimeUnix = converter::dateTime::dateToUnixTime(endTime);
+  // const uint64_t start = 1641059569;
+  // const uint64_t stop = 1641579977;
+  const auto startTimeUnix =
+      converter::dateTime::dateToUnixTimeShortFormat(startTime);
 
-    auto data = requestGoogle.requestStockData(startTimeUnix, endTimeUnix, "1d");
+  const auto endTimeUnix =
+      converter::dateTime::dateToUnixTimeShortFormat(endTime);
 
-    auto stocksData = parsing::parseStockData(data);
+  auto data = requestGoogle.requestStockData(startTimeUnix, endTimeUnix, "1d");
 
-    auto formater = DataFormater();
-    const std::string result = formater.formatData(stocksData, formatingType::table);
+  auto stocksData = parsing::parseStockData(data);
 
-    sendResponseAndCloseSession(session, result);
+  auto formater = DataFormater();
+  const std::string result =
+      formater.formatData(stocksData, formatingType::table);
+
+  sendResponseAndCloseSession(session, result);
 }
 
 void StockDataService::setEndpoints() { setEventGetStockData(resource); }
