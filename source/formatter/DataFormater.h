@@ -4,14 +4,14 @@
 #include <utility>
 #include <vector>
 
-enum class formatingType { csv, table };
+enum class formatingType { csv, browser, client };
 
 class DataFormater {
 private:
-  auto getHeaderFormat(formatingType typeOfFormating) -> std::string;
-  auto getRowFormat(formatingType typeOfFormating) -> std::string;
+  std::string getHeaderFormat(formatingType typeOfFormating);
+  std::string getRowFormat(formatingType typeOfFormating);
 
 public:
-  auto formatData(std::vector<StockData> &stockDataArray, formatingType type)
-      -> std::string;
+  std::string formatData(std::vector<StockData> &stockDataArray,
+                         formatingType type);
 };

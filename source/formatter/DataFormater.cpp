@@ -4,12 +4,11 @@
 #include <fmt/format.h>
 #include <vector>
 
-auto DataFormater::getHeaderFormat(formatingType typeOfFormating)
-    -> std::string {
+std::string DataFormater::getHeaderFormat(formatingType typeOfFormating) {
   switch (typeOfFormating) {
   case formatingType::csv:
     return "Date,Open,High,Low,Close,Adj Close,Volume\n";
-  default:
+  case formatingType::browser:
     return "-----------------------------------------------------"
            "-------------------------------------------------------------------"
            "-----------"
@@ -21,22 +20,43 @@ auto DataFormater::getHeaderFormat(formatingType typeOfFormating)
            "|\n----------------------------------------------------------------"
            "------------------------------------------------------------------"
            "\n";
+  case formatingType::client:
+    return "-------------------------------------------------------------------"
+           "--------------------------------------------------------------\r\n"
+           "| Date                                    | Open              | "
+           "High   "
+           "             | "
+           "Low                | Close               | Adj Close       |    "
+           "Volume  "
+           "      "
+           " "
+           "|\r\n";
+  default:
+    return "Format not supported!!";
   }
 }
 
-auto DataFormater::getRowFormat(formatingType typeOfFormating) -> std::string {
+std::string DataFormater::getRowFormat(formatingType typeOfFormating) {
   switch (typeOfFormating) {
   case formatingType::csv:
     return "{},{},{},{},{},{}";
-  default:
+  case formatingType::browser:
     return "| {:<25} | {:<14} | {:<14} | {:<14} | {:<14} | {:<14} | {:<14} |\n"
            "-------------------------------------------------------------------"
            "----------------------------------------------------------------\n";
+  case formatingType::client:
+    return "| {:<30}   | {:<14} | {:<14} | {:<14} | {:<14} | {:<14} | {:<14} "
+           "|\r\n"
+           "-------------------------------------------------------------------"
+           "--------------------------------------------------------------"
+           "\r\n";
+  default:
+    return "";
   }
 }
 
-auto DataFormater::formatData(std::vector<StockData> &stockDataArray,
-                              formatingType type) -> std::string {
+std::string DataFormater::formatData(std::vector<StockData> &stockDataArray,
+                                     formatingType type) {
 
   auto buffer = fmt::memory_buffer{};
   const auto itBuffer = std::back_inserter(buffer);
