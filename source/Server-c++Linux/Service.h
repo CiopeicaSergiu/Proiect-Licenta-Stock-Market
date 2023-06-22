@@ -9,13 +9,13 @@ protected:
 private:
   restbed::Service service;
   std::shared_ptr<restbed::Settings> settings;
-  const unsigned int port = 1984;
+  const unsigned int port;
 
   virtual void setEndpoints() = 0;
   void setSettings();
 
 public:
-  Service();
+  Service(const unsigned int port=1984);
   void start();
   void stop();
 };

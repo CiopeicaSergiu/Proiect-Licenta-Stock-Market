@@ -55,7 +55,7 @@ void StockDataService::eventGetStockData(
 
   auto formater = DataFormater();
   const std::string result =
-      formater.formatData(stocksData, formatingType::client);
+      formater.formatData(stocksData, formatingType::csv);
 
   sendResponseAndCloseSession(session, result);
 }

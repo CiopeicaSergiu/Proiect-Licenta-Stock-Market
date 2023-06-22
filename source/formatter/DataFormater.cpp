@@ -6,8 +6,6 @@
 
 std::string DataFormater::getHeaderFormat(formatingType typeOfFormating) {
   switch (typeOfFormating) {
-  case formatingType::csv:
-    return "Date,Open,High,Low,Close,Adj Close,Volume\n";
   case formatingType::browser:
     return "-----------------------------------------------------"
            "-------------------------------------------------------------------"
@@ -32,14 +30,14 @@ std::string DataFormater::getHeaderFormat(formatingType typeOfFormating) {
            " "
            "|\r\n";
   default:
-    return "Format not supported!!";
+    return "";
   }
 }
 
 std::string DataFormater::getRowFormat(formatingType typeOfFormating) {
   switch (typeOfFormating) {
   case formatingType::csv:
-    return "{},{},{},{},{},{}";
+    return "{},{},{},{},{},{},{}\n";
   case formatingType::browser:
     return "| {:<25} | {:<14} | {:<14} | {:<14} | {:<14} | {:<14} | {:<14} |\n"
            "-------------------------------------------------------------------"

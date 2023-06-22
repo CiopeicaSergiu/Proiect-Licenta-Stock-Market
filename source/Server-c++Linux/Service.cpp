@@ -2,7 +2,7 @@
 #include <memory>
 #include <restbed>
 
-Service::Service() {
+Service::Service(const unsigned int port):port(port) {
   resource = std::make_shared<restbed::Resource>();
   settings = std::make_shared<restbed::Settings>();
 }

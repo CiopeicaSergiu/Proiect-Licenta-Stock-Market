@@ -7,7 +7,6 @@ enum class dataElement { date, open, high, low, adjClose, close, volume };
 
 class StockData {
 private:
-  static const std::map<std::string, size_t> months;
   Date date;
   std::string open;
   std::string high;

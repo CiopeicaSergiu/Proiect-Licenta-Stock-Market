@@ -1,0 +1,11 @@
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\bin\Release\clientHTTP.exe.config
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\bin\Release\clientHTTP.exe
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\bin\Release\clientHTTP.pdb
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Release\clientHTTP.csproj.AssemblyReference.cache
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Release\clientHTTP.csproj.SuggestedBindingRedirects.cache
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Release\clientHTTP.Form1.resources
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Release\clientHTTP.Properties.Resources.resources
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Release\clientHTTP.csproj.GenerateResource.cache
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Release\clientHTTP.csproj.CoreCompileInputs.cache
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Release\clientHTTP.exe
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Release\clientHTTP.pdb
