@@ -17,6 +17,8 @@ namespace clientHTTP
     public partial class Form1 : Form
     {
         private HttpClient _client;
+        public static Form1 _instance;
+        public DataGridView gridView;
 
         public Form1()
         {
@@ -24,12 +26,13 @@ namespace clientHTTP
 
             var server = settings.getServerAddress();
             var host = settings.getServerPort();
-            
-            _client = new HttpClient(
-                $"http://{server}:{host}/"
-            );
+
+            _client = new HttpClient($"http://{server}:{host}/");
 
             InitializeComponent();
+
+            _instance = this;
+            gridView = _dataGridViewStockData;
         }
 
         private void getGoogStockData(object sender, EventArgs e)
@@ -74,6 +77,12 @@ namespace clientHTTP
             }
 
             _dataGridViewStockData.DataSource = stockData;
+        }
+
+        private void openGraphWindow(object sender, EventArgs e)
+        {
+            Form graphWindow = new Graph();
+            graphWindow.Show();
         }
     }
 }

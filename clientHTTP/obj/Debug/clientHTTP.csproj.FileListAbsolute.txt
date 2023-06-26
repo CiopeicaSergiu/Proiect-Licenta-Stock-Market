@@ -20,3 +20,4 @@ C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.c
 C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.csproj.CoreCompileInputs.cache
 C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.exe
 C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.pdb
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.Graph.resources

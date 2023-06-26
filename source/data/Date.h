@@ -15,4 +15,5 @@ public:
 
   long getUnixTimeStamp();
   std::string getDate();
+  std::string getDateShortFormat();
 };

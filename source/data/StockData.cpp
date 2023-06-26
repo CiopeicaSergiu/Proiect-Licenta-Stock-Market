@@ -27,7 +27,7 @@ auto StockData::getElement(dataElement element) -> std::string {
 
   switch (element) {
   case dataElement::date:
-    return date.getDate();
+    return date.getDateShortFormat();
   case dataElement::open:
     return open;
   case dataElement::high:

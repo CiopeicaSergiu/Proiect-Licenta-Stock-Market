@@ -36,6 +36,7 @@
             this._startTimeLabel = new System.Windows.Forms.Label();
             this._endTimeLabel = new System.Windows.Forms.Label();
             this._dataGridViewStockData = new System.Windows.Forms.DataGridView();
+            this._openGraphWindow = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._dataGridViewStockData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -106,11 +107,22 @@
             this._dataGridViewStockData.Size = new System.Drawing.Size(1086, 522);
             this._dataGridViewStockData.TabIndex = 9;
             // 
+            // _openGraphWindow
+            // 
+            this._openGraphWindow.Location = new System.Drawing.Point(1298, 281);
+            this._openGraphWindow.Name = "_openGraphWindow";
+            this._openGraphWindow.Size = new System.Drawing.Size(75, 23);
+            this._openGraphWindow.TabIndex = 10;
+            this._openGraphWindow.Text = "graph";
+            this._openGraphWindow.UseVisualStyleBackColor = true;
+            this._openGraphWindow.Click += new System.EventHandler(this.openGraphWindow);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1584, 761);
+            this.Controls.Add(this._openGraphWindow);
             this.Controls.Add(this._dataGridViewStockData);
             this.Controls.Add(this._endTimeLabel);
             this.Controls.Add(this._startTimeLabel);
@@ -137,6 +149,7 @@
         private System.Windows.Forms.Label _startTimeLabel;
         private System.Windows.Forms.Label _endTimeLabel;
         private System.Windows.Forms.DataGridView _dataGridViewStockData;
+        private System.Windows.Forms.Button _openGraphWindow;
     }
 }
 
