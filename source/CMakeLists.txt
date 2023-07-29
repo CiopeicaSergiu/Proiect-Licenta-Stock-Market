@@ -6,7 +6,7 @@ add_executable(${PROJECT_NAME} restbedTest.cpp)
 
 # add_subdirectory(../external/curlpp ../external/curlpp)
 add_subdirectory(Server-c++Linux)
-
+add_subdirectory(SqlExecutor)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ../external/restbed/distribution/include)
 
