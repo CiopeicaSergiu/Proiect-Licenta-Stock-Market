@@ -19,3 +19,6 @@
 [submodule "external/restbed"]
 	path = external/restbed
 	url = https://github.com/Corvusoft/restbed.git
+[submodule "source/tests/Catch2"]
+	path = source/tests/Catch2
+	url = https://github.com/catchorg/Catch2.git

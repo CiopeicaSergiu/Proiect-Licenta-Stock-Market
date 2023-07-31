@@ -14,25 +14,30 @@ struct Credentials {
   std::string username;
   std::string password;
 };
+// structura in care facem store la rezultatele unui sql query, primul membru ne
+// comunica numele coloanelor
+struct SubTable {
+  std::vector<std::string> columnsName;
+  std::vector<std::string> entries;
+  SubTable() = default;
+  explicit SubTable(const std::vector<std::string> &columnNamePassed);
+};
 
-struct Response {
-  const std::vector<std::string> columnsName;
-  std::vector<std::string> results;
-
-  explicit Response(const std::vector<std::string> &columnNamePassed);
+struct ConnectionSettings {
+  std::string host;
+  unsigned int port;
+  std::string database;
 };
 
 class SqlExecutor {
 public:
-  SqlExecutor(const Credentials &credentials, const std::string &host,
-              const unsigned int port);
+  SqlExecutor(const Credentials &credentials,
+              const ConnectionSettings &connectionSettings);
 
-  ~SqlExecutor();
-
-  void executeStatement(const std::string &statement);
+  void executeStatement(const std::string &statement, SubTable &subTable);
 
 private:
-  std::unique_ptr<sql::Driver> driver = nullptr;
+  sql::Driver *driver = nullptr;
   std::unique_ptr<sql::Connection> con = nullptr;
   std::unique_ptr<sql::Statement> stmt = nullptr;
   std::unique_ptr<sql::ResultSet> res = nullptr;

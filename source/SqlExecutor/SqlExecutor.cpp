@@ -6,29 +6,39 @@
 
 namespace utils {
 
-Response::Response(const std::vector<std::string> &columnNamePassed) {}
+SubTable::SubTable(const std::vector<std::string> &columnNamePassed) {
+  columnsName.reserve(columnNamePassed.size());
+  std::copy(columnNamePassed.begin(), columnNamePassed.end(),
+            std::back_inserter(columnsName));
+}
 
 SqlExecutor::SqlExecutor(const Credentials &credentials,
-                         const std::string &host, const unsigned int port) {
+                         const ConnectionSettings &connectionSettings) {
 
-  driver.reset(get_driver_instance());
-  con.reset(driver->connect(fmt::format("{}:{}", host, std::to_string(port)),
+  driver = get_driver_instance();
+  con.reset(driver->connect(fmt::format("{}:{}/{}", connectionSettings.host,
+                                        std::to_string(connectionSettings.port),
+                                        connectionSettings.database),
                             credentials.username, credentials.password));
   stmt.reset(con->createStatement());
 }
 
-Response
-SqlExecutor::executeStatement(const std::string &statement,
-                              const std::vector<std::string> &columnNames) {
+// Populeaza un subtable, un subtable este format din toate intrarile selectate
+// la executia unui query
+void SqlExecutor::executeStatement(const std::string &statement,
+                                   SubTable &subTable) {
   // ...
+  std::cout << "executeStatement1\n";
+
   res.reset(stmt->executeQuery(statement));
+  std::cout << "executeStatement1\n";
+  if (subTable.columnsName.empty()) {
+    return;
+  }
 
   while (res->next()) {
-    // You can use either numeric offsets...
-    cout << "id = " << res->getInt(1); // getInt(1) returns the first column
-    // ... or column names for accessing results.
-    // The latter is recommended.
-    cout << ", label = '" << res->getString("label") << "'" << endl;
+    for (const auto &columnName : subTable.columnsName)
+      subTable.entries.emplace_back(res->getString(columnName));
   }
 }
 
