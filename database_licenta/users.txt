@@ -1,1 +1,4 @@
-insert: insert into users(username, pass) values (\"{}\", \"{}\");"
+insert:insert into users(username, pass) values ("{}", "{}");
+deletion:delete from users where username='{}';
+update:update users set password = '{}' where id = {};
+select:select username, pass from users where username = '{}';

@@ -1,4 +1,5 @@
 #include "SqlExecutor.h"
+#include "SqlGenerator.h"
 #include <catch2/catch_test_macros.hpp>
 #include <fmt/format.h>
 
@@ -34,16 +35,42 @@ TEST_CASE("select") {
 }
 
 TEST_CASE("insert") {
-  const std::string insertStatement{
-      "insert into users(username, pass) values (\"{}\", \"{}\");"};
+
+  utils::SqlGenerator generatorUserTable("./database_licenta/users.txt");
   utils::SqlExecutor sqlExecutor({"licenta", "password"},
                                  {"localhost", 3306, "licenta"});
 
-  sqlExecutor.executeStatement(fmt::format(insertStatement, "ana", "123"));
+  const auto sqlStatement =
+      generatorUserTable.prepareStatement<utils::Operations::insert>("Andrei",
+                                                                     "Andrei");
+  std::cout << sqlStatement << "\n";
+  sqlExecutor.executeStatement(sqlStatement);
   sqlExecutor.executeStatement("commit;");
 }
 
 TEST_CASE("delete") {
-  const std::string deleteStatement;
-  REQUIRE(deleteStatement.empty());
+
+  utils::SqlGenerator generatorUserTable("./database_licenta/users.txt");
+  utils::SqlExecutor sqlExecutor({"licenta", "password"},
+                                 {"localhost", 3306, "licenta"});
+
+  const auto sqlStatement =
+      generatorUserTable.prepareStatement<utils::Operations::deletion>(
+          "Andrei");
+  std::cout << sqlStatement << "\n";
+  sqlExecutor.executeStatement(sqlStatement);
+  sqlExecutor.executeStatement("commit;");
+}
+
+TEST_CASE("select_specific") {
+  utils::SqlGenerator generatorUserTable("./database_licenta/users.txt");
+  utils::SqlExecutor sqlExecutor({"licenta", "password"},
+                                 {"localhost", 3306, "licenta"});
+
+  const auto sqlStatement =
+      generatorUserTable.prepareStatement<utils::Operations::select>("Andrei");
+  std::cout << sqlStatement << "\n";
+  utils::SubTable result({"username", "pass"});
+  sqlExecutor.executeStatement(sqlStatement, result);
+  std::cout << subTableToUsersTable(result);
 }
