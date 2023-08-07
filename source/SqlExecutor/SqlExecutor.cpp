@@ -27,19 +27,19 @@ SqlExecutor::SqlExecutor(const Credentials &credentials,
 // la executia unui query
 void SqlExecutor::executeStatement(const std::string &statement,
                                    SubTable &subTable) {
-  // ...
-  std::cout << "executeStatement1\n";
 
   res.reset(stmt->executeQuery(statement));
-  std::cout << "executeStatement1\n";
-  if (subTable.columnsName.empty()) {
-    return;
-  }
 
-  while (res->next()) {
+  while (res and res->next()) {
     for (const auto &columnName : subTable.columnsName)
       subTable.entries.emplace_back(res->getString(columnName));
   }
+}
+
+// pentru sql queries care nu returneaza nimic
+void SqlExecutor::executeStatement(const std::string &statement) {
+
+  stmt->execute(statement);
 }
 
 } // namespace utils

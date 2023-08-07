@@ -20,7 +20,7 @@ std::string subTableToUsersTable(const utils::SubTable &subTable) {
   return fmt::to_string(buffer); // pointer to the formatted data
 }
 
-TEST_CASE("simple select") {
+TEST_CASE("select") {
   utils::SqlExecutor sqlExecutor({"licenta", "password"},
                                  {"localhost", 3306, "licenta"});
   utils::SubTable queryTable({"id", "username", "pass"});
@@ -39,10 +39,11 @@ TEST_CASE("insert") {
   utils::SqlExecutor sqlExecutor({"licenta", "password"},
                                  {"localhost", 3306, "licenta"});
 
-  utils::SubTable queryTable;
-  sqlExecutor.executeStatement(fmt::format(insertStatement, "ana", "123"),
-                               queryTable);
-  std::cout << "HelloWorld!!\n";
+  sqlExecutor.executeStatement(fmt::format(insertStatement, "ana", "123"));
+  sqlExecutor.executeStatement("commit;");
+}
 
-  sqlExecutor.executeStatement("commit;", queryTable);
+TEST_CASE("delete") {
+  const std::string deleteStatement;
+  REQUIRE(deleteStatement.empty());
 }

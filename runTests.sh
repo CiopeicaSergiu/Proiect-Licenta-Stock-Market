@@ -1,4 +1,9 @@
 #! /bin/sh
+testToRun=""
 
-cd builddir/tests
-./SqlExecutorTest
+if [ "$#" -ge 1 ]
+then
+    testToRun=$1
+fi
+
+./builddir/tests/SqlExecutorTest $testToRun

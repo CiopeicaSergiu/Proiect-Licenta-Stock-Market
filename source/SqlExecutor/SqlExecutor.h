@@ -35,6 +35,7 @@ public:
               const ConnectionSettings &connectionSettings);
 
   void executeStatement(const std::string &statement, SubTable &subTable);
+  void executeStatement(const std::string &statement);
 
 private:
   sql::Driver *driver = nullptr;
