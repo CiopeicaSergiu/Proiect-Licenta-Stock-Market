@@ -3,14 +3,15 @@
 #include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include <fmt/format.h>
+#include <iostream>
 #include <map>
 #include <stdexcept>
 #include <vector>
 
-namespace{
- const std::map<std::string, size_t> months = {
-      {"Jan", 0}, {"Feb", 1}, {"Mar", 2}, {"Apr", 3}, {"May", 4},  {"Jun", 5},
-      {"Jul", 6}, {"Aug", 7}, {"Sep", 8}, {"Oct", 9}, {"Nov", 10}, {"Dec", 11}};
+namespace {
+const std::map<std::string, size_t> months = {
+    {"Jan", 0}, {"Feb", 1}, {"Mar", 2}, {"Apr", 3}, {"May", 4},  {"Jun", 5},
+    {"Jul", 6}, {"Aug", 7}, {"Sep", 8}, {"Oct", 9}, {"Nov", 10}, {"Dec", 11}};
 }
 
 Date::Date(const std::string &dateInput) : unixTimeStamp{0} {
@@ -47,7 +48,7 @@ std::string Date::formatDate(const std::string &dateInput) {
 
   fmt::format_to(std::back_inserter(buffer), dateTamplate, itMonth->first, day,
                  year);
-//why I am doing this (:
+  // why I am doing this (:
   return converter::dateTime::unixTimeToDate(
       converter::dateTime::dateToUnixTime(fmt::to_string(buffer)));
 }
@@ -66,10 +67,16 @@ std::string Date::getDate() {
   return date;
 }
 
-std::string Date::getDateShortFormat()
-{ 
+std::string Date::getDateShortFormat() {
   std::vector<std::string> result;
-  boost::split(result, getDate(), boost::is_any_of(" "));
-
-  return result[2]+"."+std::to_string(months.find(result[1])->second)+"."+result[4];
+  boost::split(result, getDate(), boost::is_any_of(" "),
+               boost::token_compress_on);
+  std::cerr << "Date short format: "
+            << result[2] + "." +
+                   std::to_string(months.find(result[1])->second + 1) + "." +
+                   result[4]
+            << "\n"
+            << result.size() << "\n";
+  return result[2] + "." + std::to_string(months.find(result[1])->second + 1) +
+         "." + result[4];
 }

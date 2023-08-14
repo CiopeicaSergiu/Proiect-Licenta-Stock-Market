@@ -22,12 +22,12 @@ namespace clientHTTP
 
         public Form1()
         {
-            Settings settings = new Settings("settings.txt");
+            Settings settings = Settings.getSettings();
 
             var server = settings.getServerAddress();
             var host = settings.getServerPort();
 
-            _client = new HttpClient($"http://{server}:{host}/");
+            _client = new HttpClient($"http://{server}:{host}");
 
             InitializeComponent();
 

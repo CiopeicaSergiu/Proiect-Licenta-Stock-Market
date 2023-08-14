@@ -11,11 +11,13 @@ add_subdirectory(tests)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ../external/restbed/distribution/include)
 
-target_link_directories(${PROJECT_NAME} PRIVATE ../external/restbed/distribution/library)
+target_link_directories(${PROJECT_NAME} PRIVATE ../external/restbed/distribution/library
+                                                ../external/mysql_connector/lib64)
 
 target_link_libraries(${PROJECT_NAME} 
                         #data
                         restbed
                         service
-                        curlpp)
+                        curlpp
+                        libmysqlcppconn.so)
 

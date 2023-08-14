@@ -18,4 +18,7 @@ private:
 public:
   StockData(const std::string &data);
   auto getElement(dataElement element) -> std::string;
+  friend std::ostream &operator<<(std::ostream &os, StockData &stockData);
 };
+
+std::ostream &operator<<(std::ostream &os, StockData &stockData);

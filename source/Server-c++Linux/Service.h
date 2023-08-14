@@ -1,10 +1,12 @@
 #include <memory>
 #include <restbed>
 
+using Resources = std::vector<std::shared_ptr<restbed::Resource>>;
+
 class Service {
 
 protected:
-  std::shared_ptr<restbed::Resource> resource;
+  Resources resources;
 
 private:
   restbed::Service service;
@@ -15,7 +17,7 @@ private:
   void setSettings();
 
 public:
-  Service(const unsigned int port=1984);
+  Service(const unsigned int port = 1984);
   void start();
   void stop();
 };

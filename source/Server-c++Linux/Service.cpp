@@ -2,8 +2,8 @@
 #include <memory>
 #include <restbed>
 
-Service::Service(const unsigned int port):port(port) {
-  resource = std::make_shared<restbed::Resource>();
+Service::Service(const unsigned int port) : port(port) {
+  // resource = std::make_shared<restbed::Resource>();
   settings = std::make_shared<restbed::Settings>();
 }
 
@@ -15,6 +15,10 @@ void Service::setSettings() {
 void Service::start() {
   setEndpoints();
   setSettings();
-  service.publish(resource);
+
+  for (const auto &resource : resources) {
+    service.publish(resource);
+  }
+
   service.start(settings);
 }

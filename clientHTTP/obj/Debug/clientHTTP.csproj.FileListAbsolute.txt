@@ -21,3 +21,8 @@ C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.c
 C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.exe
 C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.pdb
 C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.Graph.resources
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.Login.resources
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.csproj.CopyComplete
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.Compare.resources

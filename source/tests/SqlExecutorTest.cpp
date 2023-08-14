@@ -1,5 +1,8 @@
 #include "SqlExecutor.h"
+#include "../Server-c++Linux/Utils.h"
 #include "SqlGenerator.h"
+#include <boost/json/serialize.hpp>
+#include <boost/json/value_to.hpp>
 #include <catch2/catch_test_macros.hpp>
 #include <fmt/format.h>
 
@@ -68,9 +71,39 @@ TEST_CASE("select_specific") {
                                  {"localhost", 3306, "licenta"});
 
   const auto sqlStatement =
-      generatorUserTable.prepareStatement<utils::Operations::select>("Andrei");
+      generatorUserTable.prepareStatement<utils::Operations::select>("andrei");
   std::cout << sqlStatement << "\n";
   utils::SubTable result({"username", "pass"});
   sqlExecutor.executeStatement(sqlStatement, result);
   std::cout << subTableToUsersTable(result);
+}
+
+struct Authentification {
+  std::string username;
+  std::string password;
+};
+
+Authentification tag_invoke(boost::json::value_to_tag<Authentification>,
+                            boost::json::value const &authValue) {
+  const boost::json::object &authObj = authValue.as_object();
+
+  return Authentification{
+      boost::json::value_to<std::string>(authObj.at("username")),
+      boost::json::value_to<std::string>(authObj.at("password"))};
+}
+
+TEST_CASE("credentials_serialization") {
+  boost::json::value authJson = {{"username", "username"},
+                                 {"password", "password"}};
+
+  Authentification credentials =
+      boost::json::value_to<Authentification>(authJson);
+
+  REQUIRE((credentials.username == "username" &&
+           credentials.password == "password"));
+}
+
+TEST_CASE("serialize") {
+  std::cout << boost::json::serialize(
+      utils::toBoostValue("{\"username\": \"username\"}"));
 }

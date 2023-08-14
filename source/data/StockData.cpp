@@ -44,3 +44,8 @@ auto StockData::getElement(dataElement element) -> std::string {
     return "";
   }
 }
+
+std::ostream &operator<<(std::ostream &os, StockData &stockData) {
+  os << stockData.date.getDate();
+  return os;
+}
