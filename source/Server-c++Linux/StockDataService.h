@@ -16,6 +16,8 @@ private:
   void eventGetStockData(std::shared_ptr<restbed::Session> session);
   void eventLogin(std::shared_ptr<restbed::Session> session,
                   const restbed::Bytes &body);
+  void eventBuyCommand(std::shared_ptr<restbed::Session> session,
+                       const restbed::Bytes &body);
 
   void setEndpoints() override;
 };

@@ -1,4 +1,5 @@
 #include "Serialize.h"
+#include "model/BidAskPrice.h"
 #include "model/Credentials.h"
 
 namespace stockService {
@@ -16,5 +17,15 @@ Credentials tag_invoke(boost::json::value_to_tag<Credentials>,
   return Credentials{
       boost::json::value_to<std::string>(jsonObject.at("username")),
       boost::json::value_to<std::string>(jsonObject.at("password"))};
+}
+
+BidAskPrice tag_invoke(boost::json::value_to_tag<BidAskPrice>,
+                       boost::json::value const &jsonValue) {
+
+  const auto &jsonObject = jsonValue.as_object();
+  return BidAskPrice{
+      boost::json::value_to<std::string>(jsonObject.at("StockName")),
+      boost::json::value_to<std::uint32_t>(jsonObject.at("Quantity")),
+      boost::json::value_to<double>(jsonObject.at("Price"))};
 }
 } // namespace stockService

@@ -16,6 +16,7 @@ namespace clientHTTP
     public partial class Login : Form
     {
         private HttpClient _httpClient;
+
         public Login()
         {
             Settings settings = Settings.getSettings();
@@ -23,7 +24,7 @@ namespace clientHTTP
             var server = settings.getServerAddress();
             var host = settings.getServerPort();
 
-            _httpClient = new HttpClient($"http://{server}:{host}");
+            _httpClient = HttpClient.getHttpClient();
 
             InitializeComponent();
         }
@@ -31,7 +32,7 @@ namespace clientHTTP
         private void loginEvent(object sender, EventArgs e)
         {
             string loginStatus = _httpClient.login(new Credentials(_username.Text, _password.Text));
-            _statusTextBox.Text = _httpClient.login(new Credentials(_username.Text, _password.Text));
+            _statusTextBox.Text = loginStatus;
 
             if (loginStatus == "Loged in succesfully")
             {

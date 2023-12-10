@@ -4,14 +4,32 @@ using System.Net;
 using System.Net.NetworkInformation;
 using System.Text;
 using Newtonsoft.Json;
+using clientHTTP.Utilitare;
+using System.Windows.Forms.DataVisualization.Charting;
+using clientHTTP.StocksStructures;
 
 namespace clientHTTP
 {
     public class HttpClient
     {
         private string _rootAdress;
+        private static HttpClient _httpClient = null;
 
-        public HttpClient(string rootAdress)
+        public static HttpClient getHttpClient()
+        {
+            if (_httpClient == null)
+            {
+                var settings = Settings.getSettings();
+
+
+                _httpClient = new HttpClient($"http://{settings.getServerAddress()}:{settings.getServerPort()}");
+
+
+            }
+
+            return _httpClient;
+        }
+        private HttpClient(string rootAdress)
         {
             _rootAdress = rootAdress;
         }
@@ -49,5 +67,12 @@ namespace clientHTTP
         {
             return postRequest($"{_rootAdress}/login", JsonConvert.SerializeObject(credentials));
         }
+
+        public string sendBuyRequest(BidAskEntry bidAskEntry)
+        {
+            return postRequest($"{_rootAdress}/buy", JsonConvert.SerializeObject(bidAskEntry));
+        }
+
+
     }
 }

@@ -26,3 +26,4 @@ C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\bin\Debug\Newtonsoft.J
 C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.Login.resources
 C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.csproj.CopyComplete
 C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.Compare.resources
+C:\Users\Sergiu\Desktop\ClientStockApplication\clientHTTP\obj\Debug\clientHTTP.Buy.resources

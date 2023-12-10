@@ -6,4 +6,4 @@ then
     testToRun=$1
 fi
 
-./builddir/tests/SqlExecutorTest $testToRun
+gdb ./builddir/tests/SqlExecutorTest

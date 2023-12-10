@@ -1,2 +1,2 @@
 #! /bin/sh
-cmake -S source -B builddir
+cmake -DCMAKE_BUILD_TYPE=Debug -S source -B builddir

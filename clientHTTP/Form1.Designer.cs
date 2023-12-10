@@ -39,6 +39,7 @@
             this._openGraphWindow = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this._compareButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._dataGridViewStockData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -127,11 +128,22 @@
             this.menuStrip1.TabIndex = 11;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // _compareButton
+            // 
+            this._compareButton.Location = new System.Drawing.Point(1298, 310);
+            this._compareButton.Name = "_compareButton";
+            this._compareButton.Size = new System.Drawing.Size(75, 23);
+            this._compareButton.TabIndex = 12;
+            this._compareButton.Text = "Compare";
+            this._compareButton.UseVisualStyleBackColor = true;
+            this._compareButton.Click += new System.EventHandler(this.openCompareWindow);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1584, 761);
+            this.Controls.Add(this._compareButton);
             this.Controls.Add(this._openGraphWindow);
             this.Controls.Add(this._dataGridViewStockData);
             this.Controls.Add(this._endTimeLabel);
@@ -164,6 +176,7 @@
         private System.Windows.Forms.Button _openGraphWindow;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.Button _compareButton;
     }
 }
 

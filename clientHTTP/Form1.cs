@@ -22,12 +22,7 @@ namespace clientHTTP
 
         public Form1()
         {
-            Settings settings = Settings.getSettings();
-
-            var server = settings.getServerAddress();
-            var host = settings.getServerPort();
-
-            _client = new HttpClient($"http://{server}:{host}");
+            _client = HttpClient.getHttpClient();
 
             InitializeComponent();
 
@@ -53,28 +48,7 @@ namespace clientHTTP
 
             var stockDataText = _client.getStockData(stockName, startingDate, endingDate);
 
-            char[] delimitersNewLine = { '\n' };
-            var stockDataLines = stockDataText.Split(delimitersNewLine);
-
-            var stockData = new List<Stock>(stockDataLines.Length);
-            for (var i = 0; i < stockDataLines.Length - 1; ++i)
-            {
-                char[] delimData = { ',' };
-                var data = stockDataLines[i].Split(delimData);
-
-                stockData.Add(
-                    new Stock()
-                    {
-                        Date = data[0],
-                        Open = data[1],
-                        High = data[2],
-                        Low = data[3],
-                        Close = data[4],
-                        AdjClose = data[5],
-                        Volume = data[6],
-                    }
-                );
-            }
+           var stockData = StockConvertor.convertFromHttpResponseToArray(stockDataText);
 
             _dataGridViewStockData.DataSource = stockData;
         }
@@ -83,6 +57,12 @@ namespace clientHTTP
         {
             Form graphWindow = new Graph();
             graphWindow.Show();
+        }
+
+        private void openCompareWindow(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Compare().Show();
         }
     }
 }

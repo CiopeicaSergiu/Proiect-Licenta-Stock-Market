@@ -107,3 +107,9 @@ TEST_CASE("serialize") {
   std::cout << boost::json::serialize(
       utils::toBoostValue("{\"username\": \"username\"}"));
 }
+
+TEST_CASE("SQLGENERATOR") {
+  utils::SqlGenerator sqlGenerator("./database_licenta/buy.txt");
+  REQUIRE(sqlGenerator.prepareStatement<utils::Operations::insert>("99999") ==
+          "1");
+}

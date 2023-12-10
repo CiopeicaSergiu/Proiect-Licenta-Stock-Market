@@ -14,6 +14,7 @@
 #include "Serialize.h"
 #include "SqlExecutor.h"
 #include "Utils.h"
+#include "model/BidAskPrice.h"
 #include "model/Credentials.h"
 #include <boost/json/serialize.hpp>
 #include <boost/json/value_to.hpp>
@@ -130,6 +131,32 @@ void StockDataService::eventLogin(std::shared_ptr<restbed::Session> session,
             credentials.username, credentials.password),
         queryTable);
   }
+
+  if (not queryTable.entries.empty()) {
+    sendResponseAndCloseSession(session, "Loged in succesfully");
+  } else {
+    sendUnfoundAndCloseSession(session);
+  }
+}
+
+void StockDataService::eventBuyCommand(
+    std::shared_ptr<restbed::Session> session, const restbed::Bytes &body) {
+
+  const Json::value jsonValue = utils::toBoostValue(utils::to_string(body));
+  const auto bidAskPrice = Json::value_to<BidAskPrice>(jsonValue);
+
+  utils::SubTable queryTable;
+
+  // {
+  //   utils::SqlExecutor sqlExecutor({"licenta", "password"},
+  //                                  {"localhost", 3306, "licenta"});
+
+  //   sqlExecutor.executeStatement(
+  //       fmt::format(
+  //           "select * from users where username=\"{}\" and pass=\"{}\";",
+  //           credentials.username, credentials.password),
+  //       queryTable);
+  // }
 
   if (not queryTable.entries.empty()) {
     sendResponseAndCloseSession(session, "Loged in succesfully");
