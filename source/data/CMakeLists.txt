@@ -1,5 +1,5 @@
 
-add_library(data Date.cpp StockData.cpp)
+add_library(data STATIC Date.cpp StockData.cpp)
 
 add_subdirectory(../converter ../converter)
 
@@ -10,7 +10,7 @@ target_include_directories(data PUBLIC ../../external/boost
 target_link_directories(data PRIVATE ../../external/boost/stage/lib
                              ../../external/fmtlib/)
 
-target_link_libraries(data ${Boost_LIBRARIES} 
+target_link_libraries(data PUBLIC ${Boost_LIBRARIES} 
                             fmt::fmt
                             converter)
 

@@ -13,6 +13,7 @@
 
 #include "Serialize.h"
 #include "SqlExecutor.h"
+#include "SqlGenerator.h"
 #include "Utils.h"
 #include "model/BidAskPrice.h"
 #include "model/Credentials.h"
@@ -20,10 +21,7 @@
 #include <boost/json/value_to.hpp>
 #include <fmt/core.h>
 #include <iostream>
-
 using namespace stockService;
-
-constexpr auto ONE_DAY = 86400;
 
 void StockDataService::setEventGetStockData() {
   resources.emplace_back(std::make_shared<restbed::Resource>());
@@ -53,27 +51,6 @@ void StockDataService::setEventLogin() {
             [this](const std::shared_ptr<restbed::Session> session,
                    const restbed::Bytes &body) { eventLogin(session, body); });
       });
-}
-
-void StockDataService::sendResponseAndCloseSession(
-    std::shared_ptr<restbed::Session> &session, const std::string &result) {
-  session->close(restbed::OK, result,
-                 {{"Content-Length", std::to_string(result.size()).c_str()},
-                  {"Connection", "close"}});
-}
-
-void StockDataService::sendUnfoundAndCloseSession(
-    std::shared_ptr<restbed::Session> &session) {
-  session->close(restbed::NOT_FOUND);
-}
-
-void StockDataService::sendErrorMessageAndCloseSession(
-    std::shared_ptr<restbed::Session> &session,
-    const std::string errorMessage) {
-  session->close(
-      restbed::INTERNAL_SERVER_ERROR, errorMessage,
-      {{"Content-Length", std::to_string(errorMessage.size()).c_str()},
-       {"Connection", "close"}});
 }
 
 void StockDataService::eventGetStockData(
@@ -147,16 +124,18 @@ void StockDataService::eventBuyCommand(
 
   utils::SubTable queryTable;
 
-  // {
-  //   utils::SqlExecutor sqlExecutor({"licenta", "password"},
-  //                                  {"localhost", 3306, "licenta"});
+  {
+    utils::SqlGenerator sqlGenerator("./database_licenta/buy.txt");
 
-  //   sqlExecutor.executeStatement(
-  //       fmt::format(
-  //           "select * from users where username=\"{}\" and pass=\"{}\";",
-  //           credentials.username, credentials.password),
-  //       queryTable);
-  // }
+    utils::SqlExecutor sqlExecutor({"licenta", "password"},
+                                   {"localhost", 3306, "licenta"});
+
+    sqlExecutor.executeStatement(
+        sqlGenerator.prepareStatement<utils::Operations::insert>(
+            bidAskPrice.stockName, bidAskPrice.quantity, bidAskPrice.price),
+        queryTable);
+    sqlExecutor.executeStatement("commit;");
+  }
 
   if (not queryTable.entries.empty()) {
     sendResponseAndCloseSession(session, "Loged in succesfully");

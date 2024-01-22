@@ -2,12 +2,13 @@
 
 class StockDataService : public Service {
 private:
-  void sendResponseAndCloseSession(std::shared_ptr<restbed::Session> &session,
-                                   const std::string &result);
-  void sendUnfoundAndCloseSession(std::shared_ptr<restbed::Session> &session);
-  void
-  sendErrorMessageAndCloseSession(std::shared_ptr<restbed::Session> &session,
-                                  const std::string errorMessage);
+  // void sendResponseAndCloseSession(std::shared_ptr<restbed::Session>
+  // &session,
+  //                                  const std::string &result);
+  // void sendUnfoundAndCloseSession(std::shared_ptr<restbed::Session>
+  // &session); void
+  // sendErrorMessageAndCloseSession(std::shared_ptr<restbed::Session> &session,
+  //                                 const std::string errorMessage);
 
   void setEventGetStockData();
   void setEventLogin();

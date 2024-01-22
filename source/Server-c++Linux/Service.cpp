@@ -22,3 +22,23 @@ void Service::start() {
 
   service.start(settings);
 }
+
+void Service::sendResponseAndCloseSession(
+    std::shared_ptr<restbed::Session> &session, const std::string &result) {
+  session->close(restbed::OK, result,
+                 {{"Content-Length", std::to_string(result.size()).c_str()},
+                  {"Connection", "close"}});
+}
+
+void Service::sendUnfoundAndCloseSession(
+    std::shared_ptr<restbed::Session> &session) {
+  session->close(restbed::NOT_FOUND);
+}
+void Service::sendErrorMessageAndCloseSession(
+    std::shared_ptr<restbed::Session> &session,
+    const std::string errorMessage) {
+  session->close(
+      restbed::INTERNAL_SERVER_ERROR, errorMessage,
+      {{"Content-Length", std::to_string(errorMessage.size()).c_str()},
+       {"Connection", "close"}});
+}

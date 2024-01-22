@@ -110,6 +110,8 @@ TEST_CASE("serialize") {
 
 TEST_CASE("SQLGENERATOR") {
   utils::SqlGenerator sqlGenerator("./database_licenta/buy.txt");
-  REQUIRE(sqlGenerator.prepareStatement<utils::Operations::insert>("99999") ==
-          "1");
+  const std::string expectedStatement{"insert into buy(stockName, quantity, "
+                                      "price) values (\"1\", \"2\", \"3\");"};
+  REQUIRE(sqlGenerator.prepareStatement<utils::Operations::insert>(
+              "1", "2", "3") == expectedStatement);
 }
