@@ -7,5 +7,5 @@ target_link_directories(SqlExecutor PUBLIC ../../external/mysql_connector/lib64
                                                 ../../external/fmtlib)
 
 target_link_libraries(SqlExecutor libmysqlcppconn.so
-                                  fmt::fmt)
+                                  fmt)
 

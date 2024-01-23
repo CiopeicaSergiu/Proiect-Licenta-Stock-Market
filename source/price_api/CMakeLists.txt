@@ -7,29 +7,38 @@ find_package( CURL REQUIRED )
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
 
 target_include_directories(${PROJECT_NAME} PUBLIC ../Server-c++Linux
-                                                 ../../external/curlpp/include
-                                                 ../request
-                                                 ../converter
-                                                 ../formatter
-                                                 ../data
-                                                 ../../external/restbed/distribution/include
-                                                 ../../external/fmtlib/include)
+                                                  ../../external/restbed/distribution/include
+                                                  ../request
+                                                  ../converter
+                                                  ../../external/curlpp/include
+                                                  ../../external/fmtlib/include
+                                                  ../formatter
+                                                  ../data)
+                                           
+                                             
+                                                #  
+                                                # 
+
 
 target_link_directories(${PROJECT_NAME} PUBLIC ../../builddir/Server-c++Linux
-                                               ../../external/curlpp
+                                               ../../external/restbed/distribution/library
                                                ../../builddir/request
                                                ../../builddir/converter
-                                               ../../builddir/formatter
-                                               ../../builddir/data
-                                               ../../external/restbed/distribution/library
-                                               ../../external/fmtlib)
+                                                ../../external/curlpp
+                                                ../../external/fmtlib
+                                                ../../builddir/formatter
+                                                ../../builddir/data)
 
-target_link_libraries(${PROJECT_NAME} PUBLIC libservice.a
-                                             librequestData.a
-                                             CURL::libcurl
-                                             curlpp
-                                             libconverter.a
-                                             libformatter.a
+target_link_libraries(${PROJECT_NAME} PUBLIC service
                                              restbed
-                                             libfmt.a
-                                             libdata.a)
+                                             requestData
+                                             curlpp
+                                             curl
+                                             fmt
+                                             converter
+                                             formatter
+                                             data)
+                                    
+                                            
+                                            #  
+                                            #  )

@@ -1,5 +1,5 @@
 #pragma once
-#include "/home/sergiu/Desktop/Licenta/source/Server-c++Linux/Service.h"
+#include "Service.h"
 
 class PriceService : public Service {
 

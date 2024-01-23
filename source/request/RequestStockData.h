@@ -1,7 +1,4 @@
 #pragma once
-#include "../formatter/DataFormater.h"
-#include <curlpp/Options.hpp>
-#include <curlpp/cURLpp.hpp>
 #include <sstream>
 #include <string>
 class RequestStockData {

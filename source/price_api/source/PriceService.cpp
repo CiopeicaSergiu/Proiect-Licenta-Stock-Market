@@ -1,9 +1,8 @@
 #include "PriceService.h"
+#include "DataFormater.h"
 #include "RequestStockData.h"
 #include "TimeConverter.h"
 #include "parsing.h"
-#include <curlpp/Options.hpp>
-#include <curlpp/cURLpp.hpp>
 
 void PriceService::eventGeneratePrice(
     std::shared_ptr<restbed::Session> session) {
@@ -14,7 +13,6 @@ void PriceService::eventGeneratePrice(
   const auto startTime = request->get_query_parameter("startTime");
   const auto endTime = request->get_query_parameter("endTime");
 
-  curlpp::Cleanup myCleanup;
   RequestStockData requestGoogle(stockName);
 
   // const uint64_t start = 1641059569;
@@ -34,5 +32,5 @@ void PriceService::eventGeneratePrice(
   const std::string result =
       formater.formatData(stocksData, formatingType::csv);
 
-  sendResponseAndCloseSession(session, result);
+  sendResponseAndCloseSession(session, "");
 }

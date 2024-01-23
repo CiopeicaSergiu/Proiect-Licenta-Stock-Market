@@ -15,7 +15,7 @@ target_link_directories(SqlExecutorTest PUBLIC ../../builddir/SqlExecutor
                                                
 
 target_link_libraries(SqlExecutorTest PRIVATE Catch2::Catch2WithMain
-                                              fmt::fmt
+                                              fmt
                                               ${Boost_LIBRARIES}
                                               restbed
                                               SqlExecutor
