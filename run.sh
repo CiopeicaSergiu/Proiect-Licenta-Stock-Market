@@ -1,4 +1,4 @@
 #! /bin/sh
 
-cd builddir
-./NFA
+./builddir/NFA
+

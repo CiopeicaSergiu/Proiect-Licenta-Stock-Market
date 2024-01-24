@@ -13,6 +13,7 @@ private:
   void setEventGetStockData();
   void setEventLogin();
   void setEventTest();
+  void setEventBuyCommand();
 
   void eventGetStockData(std::shared_ptr<restbed::Session> session);
   void eventLogin(std::shared_ptr<restbed::Session> session,

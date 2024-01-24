@@ -6,6 +6,7 @@
 #include <fmt/core.h>
 #include <fmt/format.h>
 #include <iostream>
+#include <sstream>
 
 RequestStockData::RequestStockData(std::string stockName) {
   auto buffer = fmt::memory_buffer{};

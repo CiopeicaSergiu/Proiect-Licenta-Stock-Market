@@ -1,4 +1,4 @@
-add_library(requestData STATIC RequestStockData.cpp)
+add_library(requestData STATIC RequestStockData.cpp RequestToPriceApi.cpp)
 
 find_package(CURL REQUIRED)
 

@@ -11,6 +11,7 @@
 #include <restbed>
 #include <sstream>
 
+#include "RequestToPriceApi.h"
 #include "Serialize.h"
 #include "SqlExecutor.h"
 #include "SqlGenerator.h"
@@ -21,6 +22,7 @@
 #include <boost/json/value_to.hpp>
 #include <fmt/core.h>
 #include <iostream>
+
 using namespace stockService;
 
 void StockDataService::setEventGetStockData() {
@@ -50,6 +52,19 @@ void StockDataService::setEventLogin() {
             session->get_request()->get_header("Content-Length", 0),
             [this](const std::shared_ptr<restbed::Session> session,
                    const restbed::Bytes &body) { eventLogin(session, body); });
+      });
+}
+
+void StockDataService::setEventBuyCommand() {
+  resources.emplace_back(std::make_shared<restbed::Resource>());
+  resources.back()->set_path("/buy");
+  resources.back()->set_method_handler(
+      "POST", [this](std::shared_ptr<restbed::Session> session) {
+        session->fetch(session->get_request()->get_header("Content-Length", 0),
+                       [this](const std::shared_ptr<restbed::Session> session,
+                              const restbed::Bytes &body) {
+                         eventBuyCommand(session, body);
+                       });
       });
 }
 
@@ -120,25 +135,37 @@ void StockDataService::eventBuyCommand(
     std::shared_ptr<restbed::Session> session, const restbed::Bytes &body) {
 
   const Json::value jsonValue = utils::toBoostValue(utils::to_string(body));
+
   const auto bidAskPrice = Json::value_to<BidAskPrice>(jsonValue);
 
   utils::SubTable queryTable;
 
   {
     utils::SqlGenerator sqlGenerator("./database_licenta/buy.txt");
-
     utils::SqlExecutor sqlExecutor({"licenta", "password"},
                                    {"localhost", 3306, "licenta"});
+    std::cout << "SQL statement: "
+              << sqlGenerator.prepareStatement<utils::Operations::insert>(
+                     bidAskPrice.stockName, bidAskPrice.quantity,
+                     bidAskPrice.price)
+              << "\n";
 
     sqlExecutor.executeStatement(
         sqlGenerator.prepareStatement<utils::Operations::insert>(
             bidAskPrice.stockName, bidAskPrice.quantity, bidAskPrice.price),
         queryTable);
+    std::cout << "HelloWorld from buy command! 2\n";
+
     sqlExecutor.executeStatement("commit;");
   }
 
-  if (not queryTable.entries.empty()) {
-    sendResponseAndCloseSession(session, "Loged in succesfully");
+  RequestToPriceApi requestToPriceApi{bidAskPrice.stockName};
+
+  const auto askPriceForStock =
+      requestToPriceApi(bidAskPrice.stockName, bidAskPrice.quantity);
+
+  if (not askPriceForStock.empty()) {
+    sendResponseAndCloseSession(session, askPriceForStock);
   } else {
     sendUnfoundAndCloseSession(session);
   }
@@ -148,4 +175,5 @@ void StockDataService::setEndpoints() {
   setEventGetStockData();
   setEventLogin();
   setEventTest();
+  setEventBuyCommand();
 }
