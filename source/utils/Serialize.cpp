@@ -28,4 +28,12 @@ BidAskPrice tag_invoke(boost::json::value_to_tag<BidAskPrice>,
       boost::json::value_to<std::uint32_t>(jsonObject.at("Quantity")),
       boost::json::value_to<double>(jsonObject.at("Price"))};
 }
+
+void tag_invoke(boost::json::value_from_tag, boost::json::value &jsonValue,
+                BidAskPrice const &bidAskPrice) {
+  jsonValue = {{"stockName", bidAskPrice.stockName},
+               {"quantity", bidAskPrice.quantity},
+               {"price", bidAskPrice.price}};
+}
+
 } // namespace stockService

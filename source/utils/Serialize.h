@@ -19,4 +19,7 @@ Credentials tag_invoke(boost::json::value_to_tag<Credentials>,
 BidAskPrice tag_invoke(boost::json::value_to_tag<BidAskPrice>,
                        boost::json::value const &jsonValue);
 
+void tag_invoke(boost::json::value_from_tag, boost::json::value &jsonValue,
+                BidAskPrice const &bidAskPrice);
+
 } // namespace stockService

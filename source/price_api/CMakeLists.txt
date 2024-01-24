@@ -13,7 +13,10 @@ target_include_directories(${PROJECT_NAME} PUBLIC ../Server-c++Linux
                                                   ../../external/curlpp/include
                                                   ../../external/fmtlib/include
                                                   ../formatter
-                                                  ../data)
+                                                  ../data
+                                                  ../service
+                                                  ../utils
+                                                  ../../external/boost)
                                            
                                              
                                                 #  
@@ -27,7 +30,10 @@ target_link_directories(${PROJECT_NAME} PUBLIC ../../builddir/Server-c++Linux
                                                 ../../external/curlpp
                                                 ../../external/fmtlib
                                                 ../../builddir/formatter
-                                                ../../builddir/data)
+                                                ../../builddir/data
+                                                ../../builddir/service
+                                                ../../external/boost/stage/lib
+                                                ../../builddir/utils)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC service
                                              restbed
@@ -35,9 +41,11 @@ target_link_libraries(${PROJECT_NAME} PUBLIC service
                                              curlpp
                                              curl
                                              fmt
+                                             data
                                              converter
                                              formatter
-                                             data)
+                                             ${Boost_LIBRARIES}
+                                             utils)
                                     
                                             
                                             #  

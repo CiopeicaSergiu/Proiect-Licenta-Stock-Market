@@ -6,8 +6,12 @@ add_subdirectory(converter)
 add_subdirectory(data)
 add_subdirectory(formatter)
 add_subdirectory(request)
+add_subdirectory(service)
 add_subdirectory(Server-c++Linux)
 add_subdirectory(SqlExecutor)
+add_subdirectory(utils)
+
+
 #add_subdirectory(tests)
 
 add_executable(${PROJECT_NAME} restbedTest.cpp)
@@ -19,5 +23,5 @@ target_link_directories(${PROJECT_NAME} PRIVATE ../external/restbed/distribution
                                                 ../builddir/Server-c++Linux)
 
 target_link_libraries(${PROJECT_NAME} 
-                        service)
+                        server)
 

@@ -3,6 +3,9 @@
 
 class PriceService : public Service {
 
+public:
+  PriceService() : Service(2000) {}
+
 private:
   void setEndpoints() override;
 

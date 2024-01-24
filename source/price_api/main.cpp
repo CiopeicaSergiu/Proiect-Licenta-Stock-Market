@@ -1,6 +1,7 @@
+#include "source/PriceService.h"
 #include <iostream>
-
 int main() {
-  std::cout << "Hello World!!\n";
+  PriceService priceService{};
+  priceService.start();
   return 0;
 }

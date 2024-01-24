@@ -1,8 +1,16 @@
 #include "PriceService.h"
 #include "DataFormater.h"
+#include "PriceGenerator.h"
 #include "RequestStockData.h"
-#include "TimeConverter.h"
+#include "Serialize.h"
+#include "model/BidAskPrice.h"
 #include "parsing.h"
+#include <boost/json/serialize.hpp>
+#include <boost/json/value_to.hpp>
+#include <ctime>
+#include <iostream>
+
+using namespace stockService;
 
 void PriceService::eventGeneratePrice(
     std::shared_ptr<restbed::Session> session) {
@@ -10,21 +18,17 @@ void PriceService::eventGeneratePrice(
   const auto request = session->get_request();
 
   const auto stockName = request->get_path_parameter("stockName");
-  const auto startTime = request->get_query_parameter("startTime");
-  const auto endTime = request->get_query_parameter("endTime");
+  const auto quantity = request->get_query_parameter("quantity");
 
   RequestStockData requestGoogle(stockName);
 
   // const uint64_t start = 1641059569;
   // const uint64_t stop = 1641579977;
-  const auto startTimeUnix =
-      converter::dateTime::dateToUnixTimeShortFormat(startTime);
 
-  const auto endTimeUnix =
-      converter::dateTime::dateToUnixTimeShortFormat(endTime);
+  time_t secondsUntilNow = time(0);
 
-  auto data = requestGoogle.requestStockData(startTimeUnix,
-                                             endTimeUnix + ONE_DAY, "1d");
+  auto data = requestGoogle.requestStockData(secondsUntilNow,
+                                             secondsUntilNow + ONE_DAY, "1d");
 
   auto stocksData = parsing::parseStockData(data);
 
@@ -32,5 +36,27 @@ void PriceService::eventGeneratePrice(
   const std::string result =
       formater.formatData(stocksData, formatingType::csv);
 
-  sendResponseAndCloseSession(session, "");
+  BidAskPrice bidAskPrice;
+  bidAskPrice.price =
+      std::stoul(quantity) *
+      priceGenerator::generateBuyCostNormalDistribution(
+          std::stod(stocksData.front().getElement(dataElement::close)));
+
+  std::cout << "Something: " << bidAskPrice.price;
+  bidAskPrice.stockName = stockName;
+  bidAskPrice.quantity = std::stoul(quantity);
+
+  sendResponseAndCloseSession(session,
+                              Json::serialize(Json::value_from(bidAskPrice)));
+}
+
+void PriceService::setEndpoints() { setEventGeneratePrice(); }
+
+void PriceService::setEventGeneratePrice() {
+  resources.emplace_back(std::make_shared<restbed::Resource>());
+  resources.back()->set_path("/{stockName: ^[a-z]{4}}");
+  resources.back()->set_method_handler(
+      "GET", [this](std::shared_ptr<restbed::Session> session) {
+        eventGeneratePrice(session);
+      });
 }

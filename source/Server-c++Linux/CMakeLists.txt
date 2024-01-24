@@ -1,27 +1,33 @@
-add_library(service STATIC Service.cpp StockDataService.cpp Utils.cpp Serialize.cpp)
+add_library(server STATIC StockDataService.cpp)
 
 
-target_include_directories(service PUBLIC  ../../external/restbed/distribution/include
+target_include_directories(server PUBLIC  ../../external/restbed/distribution/include
                                            ../../external/boost
                                            ../SqlExecutor
                                            ../../external/mysql_connector/include/jdbc
                                            ../../external/date/include
                                            ../../external/curlpp/include
-                                           ../request)
+                                           ../request
+                                           ../service
+                                           ../utils)
                                            
 
-target_link_directories(service PUBLIC ../../external/restbed/distribution/library
+target_link_directories(server PUBLIC ../../external/restbed/distribution/library
                                         ../../external/boost/stage/lib
                                         ../../builddir/SqlExecutor
                                         ../../external/mysql_connector/lib64
                                         ../../external/curlpp
-                                        ../../builddir/request)
+                                        ../../builddir/request
+                                        ../../builddir/service
+                                        ../../builddir/utils)
                                         #../../external/mysql_connector/lib64)
 
-target_link_libraries(service  restbed
+target_link_libraries(server   service
+                               restbed
                                formatter
                                requestData
                                converter
+                               utils
                                ${Boost_LIBRARIES}
                                SqlExecutor
                                curl
