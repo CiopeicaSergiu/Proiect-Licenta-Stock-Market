@@ -25,6 +25,11 @@
 
 using namespace stockService;
 
+const utils::Credentials credentialsDataBase{"licenta", "password"};
+
+const utils::ConnectionSettings connectionSettingsDataBase{"localhost", 3306,
+                                                           "licenta"};
+
 void StockDataService::setEventGetStockData() {
   resources.emplace_back(std::make_shared<restbed::Resource>());
   resources.back()->set_path("/{stockName: ^[a-z]{4}}");
@@ -114,8 +119,8 @@ void StockDataService::eventLogin(std::shared_ptr<restbed::Session> session,
   utils::SubTable queryTable({"id", "username", "pass"});
 
   {
-    utils::SqlExecutor sqlExecutor({"licenta", "password"},
-                                   {"localhost", 3306, "licenta"});
+    utils::SqlExecutor sqlExecutor(credentialsDataBase,
+                                   connectionSettingsDataBase);
 
     sqlExecutor.executeStatement(
         fmt::format(
@@ -138,29 +143,17 @@ void StockDataService::eventBuyCommand(
 
   const auto bidAskPrice = Json::value_to<BidAskPrice>(jsonValue);
 
-  utils::SubTable queryTable;
-
   {
     utils::SqlGenerator sqlGenerator("./database_licenta/buy.txt");
-    utils::SqlExecutor sqlExecutor({"licenta", "password"},
-                                   {"localhost", 3306, "licenta"});
-    std::cout << "SQL statement: "
-              << sqlGenerator.prepareStatement<utils::Operations::insert>(
-                     bidAskPrice.stockName, bidAskPrice.quantity,
-                     bidAskPrice.price)
-              << "\n";
+    utils::SqlExecutor sqlExecutor(credentialsDataBase,
+                                   connectionSettingsDataBase);
 
     sqlExecutor.executeStatement(
         sqlGenerator.prepareStatement<utils::Operations::insert>(
-            bidAskPrice.stockName, bidAskPrice.quantity, bidAskPrice.price),
-        queryTable);
-    std::cout << "HelloWorld from buy command! 2\n";
-
-    sqlExecutor.executeStatement("commit;");
+            bidAskPrice.stockName, bidAskPrice.quantity, bidAskPrice.price));
   }
 
   RequestToPriceApi requestToPriceApi{bidAskPrice.stockName};
-
   const auto askPriceForStock =
       requestToPriceApi(bidAskPrice.stockName, bidAskPrice.quantity);
 

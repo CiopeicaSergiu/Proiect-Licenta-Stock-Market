@@ -4,7 +4,7 @@
 static constexpr char SEPARATOR = ':';
 
 namespace utils {
-SqlGenerator::SqlGenerator(const std::string path) {
+SqlGenerator::SqlGenerator(const std::string &path) {
   std::ifstream file(path);
   std::string line;
 

@@ -7,7 +7,7 @@ namespace utils {
 enum class Operations { insert, update, deletion, select, none };
 class SqlGenerator {
 public:
-  explicit SqlGenerator(const std::string path);
+  explicit SqlGenerator(const std::string &path);
 
   template <Operations op, typename... Args>
   std::string prepareStatement(Args &&...args) {

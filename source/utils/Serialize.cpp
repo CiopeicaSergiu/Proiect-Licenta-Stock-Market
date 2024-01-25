@@ -24,9 +24,9 @@ BidAskPrice tag_invoke(boost::json::value_to_tag<BidAskPrice>,
 
   const auto &jsonObject = jsonValue.as_object();
   return BidAskPrice{
-      boost::json::value_to<std::string>(jsonObject.at("StockName")),
-      boost::json::value_to<std::uint32_t>(jsonObject.at("Quantity")),
-      boost::json::value_to<double>(jsonObject.at("Price"))};
+      boost::json::value_to<std::string>(jsonObject.at("stockName")),
+      boost::json::value_to<std::uint32_t>(jsonObject.at("quantity")),
+      boost::json::value_to<double>(jsonObject.at("price"))};
 }
 
 void tag_invoke(boost::json::value_from_tag, boost::json::value &jsonValue,

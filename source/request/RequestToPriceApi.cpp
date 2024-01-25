@@ -11,7 +11,7 @@ RequestToPriceApi::RequestToPriceApi(const std::string_view stockName,
                                      const unsigned int portNumber) {
   auto buffer = fmt::memory_buffer{};
   try {
-    fmt::format_to(std::back_inserter(buffer), url, stockName, portNumber, "{}",
+    fmt::format_to(std::back_inserter(buffer), url, portNumber, stockName, "{}",
                    "{}");
   } catch (const std::exception &e) {
     std::cout << "RequestStockData:RequestStockData eroare fmtlib."
@@ -23,7 +23,6 @@ RequestToPriceApi::RequestToPriceApi(const std::string_view stockName,
 
 std::string RequestToPriceApi::operator()(const std::string_view stockName,
                                           const std::uint32_t quantity) {
-
   auto buffer = fmt::memory_buffer{};
   fmt::format_to(std::back_inserter(buffer), url, stockName, quantity);
   std::ostringstream osBuffer;

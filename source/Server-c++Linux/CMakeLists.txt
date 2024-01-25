@@ -30,5 +30,6 @@ target_link_libraries(server   service
                                utils
                                ${Boost_LIBRARIES}
                                SqlExecutor
+                               libmysqlcppconn.so
                                curl
                                curlpp)

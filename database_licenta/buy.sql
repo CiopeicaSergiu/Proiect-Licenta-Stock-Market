@@ -8,6 +8,6 @@ CREATE TABLE buy(
     primary key (id)
 );
 
-insert into buy(stockName, quantity, price) values ("test", "75", "10.57");
+insert into buy(stockName, quantity, price) values ("test", 75, 10.57);
 
 commit;

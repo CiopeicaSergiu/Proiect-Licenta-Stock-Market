@@ -40,28 +40,31 @@
             this._tableBid = new System.Windows.Forms.DataGridView();
             this._tableAsk = new System.Windows.Forms.DataGridView();
             this._deleteCommand = new System.Windows.Forms.Button();
+            this._popularOptions = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this._match = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._tableBid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._tableAsk)).BeginInit();
             this.SuspendLayout();
             // 
             // _quantityTextBox
             // 
-            this._quantityTextBox.Location = new System.Drawing.Point(89, 121);
+            this._quantityTextBox.Location = new System.Drawing.Point(91, 161);
             this._quantityTextBox.Name = "_quantityTextBox";
-            this._quantityTextBox.Size = new System.Drawing.Size(100, 20);
+            this._quantityTextBox.Size = new System.Drawing.Size(123, 20);
             this._quantityTextBox.TabIndex = 0;
             // 
             // _priceTextBox
             // 
-            this._priceTextBox.Location = new System.Drawing.Point(89, 158);
+            this._priceTextBox.Location = new System.Drawing.Point(91, 198);
             this._priceTextBox.Name = "_priceTextBox";
-            this._priceTextBox.Size = new System.Drawing.Size(100, 20);
+            this._priceTextBox.Size = new System.Drawing.Size(123, 20);
             this._priceTextBox.TabIndex = 1;
             // 
             // _quantityLabel
             // 
             this._quantityLabel.AutoSize = true;
-            this._quantityLabel.Location = new System.Drawing.Point(25, 124);
+            this._quantityLabel.Location = new System.Drawing.Point(8, 160);
             this._quantityLabel.Name = "_quantityLabel";
             this._quantityLabel.Size = new System.Drawing.Size(46, 13);
             this._quantityLabel.TabIndex = 2;
@@ -70,7 +73,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(28, 164);
+            this.label2.Location = new System.Drawing.Point(11, 200);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(31, 13);
             this.label2.TabIndex = 3;
@@ -78,7 +81,7 @@
             // 
             // _buyButton
             // 
-            this._buyButton.Location = new System.Drawing.Point(89, 195);
+            this._buyButton.Location = new System.Drawing.Point(103, 235);
             this._buyButton.Name = "_buyButton";
             this._buyButton.Size = new System.Drawing.Size(100, 32);
             this._buyButton.TabIndex = 4;
@@ -89,7 +92,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(226, 39);
+            this.label3.Location = new System.Drawing.Point(243, 39);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(22, 13);
             this.label3.TabIndex = 7;
@@ -98,7 +101,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(226, 353);
+            this.label4.Location = new System.Drawing.Point(253, 353);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(25, 13);
             this.label4.TabIndex = 8;
@@ -106,15 +109,15 @@
             // 
             // _securityTextBox
             // 
-            this._securityTextBox.Location = new System.Drawing.Point(89, 78);
+            this._securityTextBox.Location = new System.Drawing.Point(91, 118);
             this._securityTextBox.Name = "_securityTextBox";
-            this._securityTextBox.Size = new System.Drawing.Size(100, 20);
+            this._securityTextBox.Size = new System.Drawing.Size(123, 20);
             this._securityTextBox.TabIndex = 9;
             // 
             // _securityLabel
             // 
             this._securityLabel.AutoSize = true;
-            this._securityLabel.Location = new System.Drawing.Point(25, 85);
+            this._securityLabel.Location = new System.Drawing.Point(8, 121);
             this._securityLabel.Name = "_securityLabel";
             this._securityLabel.Size = new System.Drawing.Size(45, 13);
             this._securityLabel.TabIndex = 10;
@@ -123,23 +126,23 @@
             // _tableBid
             // 
             this._tableBid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this._tableBid.Location = new System.Drawing.Point(201, 55);
+            this._tableBid.Location = new System.Drawing.Point(229, 55);
             this._tableBid.Name = "_tableBid";
-            this._tableBid.Size = new System.Drawing.Size(1197, 274);
+            this._tableBid.Size = new System.Drawing.Size(1169, 274);
             this._tableBid.TabIndex = 11;
             this._tableBid.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clickedCell);
             // 
             // _tableAsk
             // 
             this._tableAsk.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this._tableAsk.Location = new System.Drawing.Point(201, 369);
+            this._tableAsk.Location = new System.Drawing.Point(229, 369);
             this._tableAsk.Name = "_tableAsk";
-            this._tableAsk.Size = new System.Drawing.Size(1197, 274);
+            this._tableAsk.Size = new System.Drawing.Size(1169, 274);
             this._tableAsk.TabIndex = 12;
             // 
             // _deleteCommand
             // 
-            this._deleteCommand.Location = new System.Drawing.Point(89, 233);
+            this._deleteCommand.Location = new System.Drawing.Point(103, 273);
             this._deleteCommand.Name = "_deleteCommand";
             this._deleteCommand.Size = new System.Drawing.Size(100, 35);
             this._deleteCommand.TabIndex = 13;
@@ -147,11 +150,41 @@
             this._deleteCommand.UseVisualStyleBackColor = true;
             this._deleteCommand.Click += new System.EventHandler(this.deleteCommand);
             // 
+            // _popularOptions
+            // 
+            this._popularOptions.FormattingEnabled = true;
+            this._popularOptions.Location = new System.Drawing.Point(93, 87);
+            this._popularOptions.Name = "_popularOptions";
+            this._popularOptions.Size = new System.Drawing.Size(121, 21);
+            this._popularOptions.TabIndex = 14;
+            this._popularOptions.SelectedIndexChanged += new System.EventHandler(this.selectPopularOption);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(8, 90);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(82, 13);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "Popular Options";
+            // 
+            // _match
+            // 
+            this._match.Location = new System.Drawing.Point(103, 315);
+            this._match.Name = "_match";
+            this._match.Size = new System.Drawing.Size(100, 30);
+            this._match.TabIndex = 16;
+            this._match.Text = "Match";
+            this._match.UseVisualStyleBackColor = true;
+            // 
             // Buy
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1455, 843);
+            this.Controls.Add(this._match);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this._popularOptions);
             this.Controls.Add(this._deleteCommand);
             this.Controls.Add(this._tableAsk);
             this.Controls.Add(this._tableBid);
@@ -187,5 +220,8 @@
         private System.Windows.Forms.DataGridView _tableBid;
         private System.Windows.Forms.DataGridView _tableAsk;
         private System.Windows.Forms.Button _deleteCommand;
+        private System.Windows.Forms.ComboBox _popularOptions;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button _match;
     }
 }

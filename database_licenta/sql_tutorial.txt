@@ -1,0 +1,6 @@
+mysql --host=localhost --user=licenta --password=password licenta
+
+How to run mysql sql script:
+connect with the command above
+run this afterwards 
+source full_path

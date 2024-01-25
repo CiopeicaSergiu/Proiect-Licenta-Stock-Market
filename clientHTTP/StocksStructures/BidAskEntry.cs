@@ -8,8 +8,8 @@ namespace clientHTTP.StocksStructures
 {
     public class BidAskEntry
     {
-        public string StockName { get; set;}
-        public uint Quantity { get; set; }
-        public double Price { get; set; }
+        public string stockName { get; set;}
+        public uint quantity { get; set; }
+        public double price { get; set; }
     }
 }

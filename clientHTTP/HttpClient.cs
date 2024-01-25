@@ -68,9 +68,11 @@ namespace clientHTTP
             return postRequest($"{_rootAdress}/login", JsonConvert.SerializeObject(credentials));
         }
 
-        public string sendBuyRequest(BidAskEntry bidAskEntry)
+        public BidAskEntry sendBuyRequest(BidAskEntry bidAskEntry)
         {
-            return postRequest($"{_rootAdress}/buy", JsonConvert.SerializeObject(bidAskEntry));
+            string response =  postRequest($"{_rootAdress}/buy", JsonConvert.SerializeObject(bidAskEntry));
+            BidAskEntry stockAskData = JsonConvert.DeserializeObject<BidAskEntry>(response);
+            return stockAskData;
         }
 
 
