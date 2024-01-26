@@ -257,4 +257,6 @@ void StockDataService::setEndpoints() {
   setEventLogin();
   setEventTest();
   setEventBuyCommand();
+  setEventGetBuyPrices();
+  setEventGetAskPrices();
 }
