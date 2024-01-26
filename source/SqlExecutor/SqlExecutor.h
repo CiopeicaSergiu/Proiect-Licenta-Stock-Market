@@ -9,6 +9,10 @@
 #include <cppconn/resultset.h>
 #include <cppconn/statement.h>
 
+namespace stockService {
+struct BidAskPrice;
+}
+
 namespace utils {
 struct Credentials {
   std::string username;
@@ -22,6 +26,9 @@ struct SubTable {
   SubTable() = default;
   explicit SubTable(const std::vector<std::string> &columnNamePassed);
 };
+
+std::vector<stockService::BidAskPrice>
+toBidAskPrices(const SubTable &queryResult);
 
 struct ConnectionSettings {
   std::string host;

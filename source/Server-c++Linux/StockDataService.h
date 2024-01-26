@@ -14,12 +14,16 @@ private:
   void setEventLogin();
   void setEventTest();
   void setEventBuyCommand();
+  void setEventGetBuyPrices();
+  void setEventGetAskPrices();
 
   void eventGetStockData(std::shared_ptr<restbed::Session> session);
   void eventLogin(std::shared_ptr<restbed::Session> session,
                   const restbed::Bytes &body);
   void eventBuyCommand(std::shared_ptr<restbed::Session> session,
                        const restbed::Bytes &body);
+  void eventGetAskPrices(std::shared_ptr<restbed::Session> session);
+  void eventGetBuyPrices(std::shared_ptr<restbed::Session> session);
 
   void setEndpoints() override;
 };

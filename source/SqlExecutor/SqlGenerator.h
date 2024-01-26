@@ -4,7 +4,7 @@
 #include <unordered_map>
 namespace utils {
 
-enum class Operations { insert, update, deletion, select, none };
+enum class Operations { insert, update, deletion, select, select_all, none };
 class SqlGenerator {
 public:
   explicit SqlGenerator(const std::string &path);

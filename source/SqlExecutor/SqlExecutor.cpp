@@ -1,5 +1,6 @@
 #include "SqlExecutor.h"
 
+#include "model/BidAskPrice.h"
 #include <algorithm>
 #include <fmt/format.h>
 #include <iterator>
@@ -40,6 +41,26 @@ void SqlExecutor::executeStatement(const std::string &statement,
 void SqlExecutor::executeStatement(const std::string &statement) {
 
   stmt->execute(statement);
+}
+
+std::vector<stockService::BidAskPrice>
+toBidAskPrices(const SubTable &queryResult) {
+
+  if (queryResult.columnsName.size() != 4) {
+    return {};
+  }
+
+  std::vector<stockService::BidAskPrice> bidAskPrices;
+  bidAskPrices.reserve(queryResult.entries.size() / 4);
+
+  for (size_t i = 0; i < queryResult.entries.size(); i += 4) {
+    bidAskPrices.push_back(stockService::BidAskPrice{
+        std::stoul(queryResult.entries.at(1)), queryResult.entries.at(2),
+        (std::uint32_t)std::stoul(queryResult.entries.at(3)),
+        std::stod(queryResult.entries.at(4))});
+  }
+
+  return bidAskPrices;
 }
 
 } // namespace utils

@@ -143,25 +143,113 @@ void StockDataService::eventBuyCommand(
 
   const auto bidAskPrice = Json::value_to<BidAskPrice>(jsonValue);
 
+  utils::SqlExecutor sqlExecutor(credentialsDataBase,
+                                 connectionSettingsDataBase);
+
+  utils::SubTable queryResult(
+      {"id", "id_user", "stockName", "quantity", "price"});
   {
     utils::SqlGenerator sqlGenerator("./database_licenta/buy.txt");
-    utils::SqlExecutor sqlExecutor(credentialsDataBase,
-                                   connectionSettingsDataBase);
 
     sqlExecutor.executeStatement(
         sqlGenerator.prepareStatement<utils::Operations::insert>(
-            bidAskPrice.stockName, bidAskPrice.quantity, bidAskPrice.price));
+            99, bidAskPrice.stockName, bidAskPrice.quantity,
+            bidAskPrice.price));
+
+    sqlExecutor.executeStatement(
+        sqlGenerator.prepareStatement<utils::Operations::select>(
+            99, bidAskPrice.stockName, bidAskPrice.quantity, bidAskPrice.price),
+        queryResult);
   }
 
+  utils::SqlGenerator sqlGenerator("./database_licenta/askPrice.txt");
+
+  // id, stockName, quantity, price
+
   RequestToPriceApi requestToPriceApi{bidAskPrice.stockName};
-  const auto askPriceForStock =
+  const auto askPriceForStockJson =
       requestToPriceApi(bidAskPrice.stockName, bidAskPrice.quantity);
 
-  if (not askPriceForStock.empty()) {
-    sendResponseAndCloseSession(session, askPriceForStock);
+  const auto askPriceForStock =
+      Json::value_to<BidAskPrice>(utils::toBoostValue(askPriceForStockJson));
+
+  sqlExecutor.executeStatement(
+      sqlGenerator.prepareStatement<utils::Operations::insert>(
+          99, askPriceForStock.stockName, askPriceForStock.quantity,
+          askPriceForStock.price));
+
+  if (not askPriceForStockJson.empty()) {
+    sendResponseAndCloseSession(session, askPriceForStockJson);
   } else {
     sendUnfoundAndCloseSession(session);
   }
+}
+
+void StockDataService::eventGetAskPrices(
+    std::shared_ptr<restbed::Session> session) {
+
+  utils::SqlExecutor sqlExecutor(credentialsDataBase,
+                                 connectionSettingsDataBase);
+
+  utils::SqlGenerator sqlGeneratorAskPrice("./database_licenta/askPrice.txt");
+
+  utils::SubTable queryResultBuy{
+      {"id_user", "id", "stockName", "quantity", "price"}};
+
+  sqlExecutor.executeStatement(
+      sqlGeneratorAskPrice.prepareStatement<utils::Operations::select_all>(),
+      queryResultBuy);
+
+  const auto bidAskPrices = toBidAskPrices(queryResultBuy);
+
+  if (not bidAskPrices.empty()) {
+    sendResponseAndCloseSession(
+        session, Json::serialize(Json::value_from(bidAskPrices)));
+  } else {
+    sendUnfoundAndCloseSession(session);
+  }
+}
+
+void StockDataService::eventGetBuyPrices(
+    std::shared_ptr<restbed::Session> session) {
+
+  utils::SqlExecutor sqlExecutor(credentialsDataBase,
+                                 connectionSettingsDataBase);
+
+  utils::SqlGenerator sqlGeneratorBuy("./database_licenta/buy.txt");
+
+  utils::SubTable queryResultBuy{{"id", "stockName", "quantity", "price"}};
+
+  sqlExecutor.executeStatement(
+      sqlGeneratorBuy.prepareStatement<utils::Operations::select_all>(),
+      queryResultBuy);
+
+  const auto bidAskPrices = toBidAskPrices(queryResultBuy);
+
+  if (not bidAskPrices.empty()) {
+    sendResponseAndCloseSession(
+        session, Json::serialize(Json::value_from(bidAskPrices)));
+  } else {
+    sendUnfoundAndCloseSession(session);
+  }
+}
+
+void StockDataService::setEventGetBuyPrices() {
+  resources.emplace_back(std::make_shared<restbed::Resource>());
+  resources.back()->set_path("/getBuyPrices");
+  resources.back()->set_method_handler(
+      "GET", [this](std::shared_ptr<restbed::Session> session) {
+        eventGetBuyPrices(session);
+      });
+}
+
+void StockDataService::setEventGetAskPrices() {
+  resources.emplace_back(std::make_shared<restbed::Resource>());
+  resources.back()->set_path("/getAskPrices");
+  resources.back()->set_method_handler(
+      "GET", [this](std::shared_ptr<restbed::Session> session) {
+        eventGetAskPrices(session);
+      });
 }
 
 void StockDataService::setEndpoints() {
