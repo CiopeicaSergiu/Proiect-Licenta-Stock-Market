@@ -55,9 +55,9 @@ toBidAskPrices(const SubTable &queryResult) {
 
   for (size_t i = 0; i < queryResult.entries.size(); i += 4) {
     bidAskPrices.push_back(stockService::BidAskPrice{
-        std::stoul(queryResult.entries.at(1)), queryResult.entries.at(2),
-        (std::uint32_t)std::stoul(queryResult.entries.at(3)),
-        std::stod(queryResult.entries.at(4))});
+        std::stoul(queryResult.entries.at(i)), queryResult.entries.at(i + 1),
+        (std::uint32_t)std::stoul(queryResult.entries.at(i + 2)),
+        std::stod(queryResult.entries.at(i + 3))});
   }
 
   return bidAskPrices;

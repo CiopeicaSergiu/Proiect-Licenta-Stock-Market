@@ -193,14 +193,13 @@ void StockDataService::eventGetAskPrices(
 
   utils::SqlGenerator sqlGeneratorAskPrice("./database_licenta/askPrice.txt");
 
-  utils::SubTable queryResultBuy{
-      {"id_user", "id", "stockName", "quantity", "price"}};
+  utils::SubTable queryResultAsk{{"id", "stockName", "quantity", "price"}};
 
   sqlExecutor.executeStatement(
       sqlGeneratorAskPrice.prepareStatement<utils::Operations::select_all>(),
-      queryResultBuy);
+      queryResultAsk);
 
-  const auto bidAskPrices = toBidAskPrices(queryResultBuy);
+  const auto bidAskPrices = toBidAskPrices(queryResultAsk);
 
   if (not bidAskPrices.empty()) {
     sendResponseAndCloseSession(
@@ -212,13 +211,15 @@ void StockDataService::eventGetAskPrices(
 
 void StockDataService::eventGetBuyPrices(
     std::shared_ptr<restbed::Session> session) {
-
   utils::SqlExecutor sqlExecutor(credentialsDataBase,
                                  connectionSettingsDataBase);
 
   utils::SqlGenerator sqlGeneratorBuy("./database_licenta/buy.txt");
 
   utils::SubTable queryResultBuy{{"id", "stockName", "quantity", "price"}};
+
+  const std::string selectAllStatement =
+      sqlGeneratorBuy.prepareStatement<utils::Operations::select_all>();
 
   sqlExecutor.executeStatement(
       sqlGeneratorBuy.prepareStatement<utils::Operations::select_all>(),
@@ -236,7 +237,7 @@ void StockDataService::eventGetBuyPrices(
 
 void StockDataService::setEventGetBuyPrices() {
   resources.emplace_back(std::make_shared<restbed::Resource>());
-  resources.back()->set_path("/getBuyPrices");
+  resources.back()->set_path("/getBidPrices");
   resources.back()->set_method_handler(
       "GET", [this](std::shared_ptr<restbed::Session> session) {
         eventGetBuyPrices(session);
@@ -250,6 +251,81 @@ void StockDataService::setEventGetAskPrices() {
       "GET", [this](std::shared_ptr<restbed::Session> session) {
         eventGetAskPrices(session);
       });
+}
+
+void StockDataService::eventDeleteBuyCommand(
+    std::shared_ptr<restbed::Session> session) {
+  const auto request = session->get_request();
+
+  const auto buyCommandId = request->get_path_parameter("id");
+
+  utils::SqlExecutor sqlExecutor(credentialsDataBase,
+                                 connectionSettingsDataBase);
+
+  utils::SqlGenerator sqlGeneratorBuy("./database_licenta/buy.txt");
+
+  sqlExecutor.executeStatement(
+      sqlGeneratorBuy.prepareStatement<utils::Operations::deletion>(
+          std::stol(buyCommandId)));
+
+  sendResponseAndCloseSession(session, "");
+}
+
+void StockDataService::eventDelteAskPrice(
+    std::shared_ptr<restbed::Session> session) {
+  const auto request = session->get_request();
+
+  const auto buyCommandId = request->get_path_parameter("id");
+
+  utils::SqlExecutor sqlExecutor(credentialsDataBase,
+                                 connectionSettingsDataBase);
+
+  utils::SqlGenerator sqlGeneratorAskPrice("./database_licenta/askPrice.txt");
+
+  sqlExecutor.executeStatement(
+      sqlGeneratorAskPrice.prepareStatement<utils::Operations::deletion>(
+          std::stol(buyCommandId)));
+
+  sendResponseAndCloseSession(session, "");
+}
+
+void match(const BidAskPrice &bidStockPrice, const BidAskPrice &askStockPrice) {
+}
+
+void StockDataService::eventMatch(std::shared_ptr<restbed::Session> session) {
+
+  const auto request = session->get_request();
+
+  const auto bidCommandId = request->get_query_parameter("id_buy");
+  const auto askCommandId = request->get_query_parameter("id_ask");
+
+  utils::SqlExecutor sqlExecutor(credentialsDataBase,
+                                 connectionSettingsDataBase);
+
+  utils::SqlGenerator sqlGeneratorBuy("./database_licenta/buy.txt");
+  utils::SqlGenerator sqlGeneratorAskPrice("./database_licenta/askPrice.txt");
+
+  utils::SubTable queryResultAsk{{"id", "stockName", "quantity", "price"}};
+
+  sqlExecutor.executeStatement(
+      sqlGeneratorAskPrice.prepareStatement<utils::Operations::select>(
+          std::stol(bidCommandId)),
+      queryResultAsk);
+
+  utils::SubTable queryResultBuy{
+      {"id_user", "id", "stockName", "quantity", "price"}};
+
+  sqlExecutor.executeStatement(
+      sqlGeneratorAskPrice.prepareStatement<utils::Operations::select>(
+          std::stol(askCommandId)),
+      queryResultBuy);
+
+  const auto askPrices = toBidAskPrices(queryResultAsk);
+  const auto bidPrices = toBidAskPrices(queryResultBuy);
+
+  match(bidPrices.front(), askPrices.front());
+
+  sendResponseAndCloseSession(session, "");
 }
 
 void StockDataService::setEndpoints() {

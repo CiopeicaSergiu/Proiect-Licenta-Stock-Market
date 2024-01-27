@@ -1,4 +1,4 @@
 #! /bin/sh
 
-./builddir/NFA
+gdb ./builddir/NFA
 

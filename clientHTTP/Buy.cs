@@ -7,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Http;
+using System.Net.NetworkInformation;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,6 +41,26 @@ namespace clientHTTP
             
             _tableBid.DataSource = _table;
             _tableAsk.DataSource = _tableAskPrice;
+            initializeBidPrices();
+            initializeAskPrices();
+        }
+
+        private void initializeBidPrices()
+        {
+            var bidPrices = _httpClient.getBidPrices();
+            foreach (var bidPrice in bidPrices)
+            {
+                _table.Rows.Add(bidPrice.stockName, bidPrice.price, bidPrice.quantity);
+            }
+
+        }
+
+        private void initializeAskPrices() { 
+            var askPrices = _httpClient.getAskPrices();
+            foreach (var askPrice in askPrices)
+            {
+                _tableAskPrice.Rows.Add(askPrice.stockName, askPrice.price, askPrice.quantity);
+            }
         }
 
         private void setUpTables()

@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using clientHTTP.Utilitare;
 using System.Windows.Forms.DataVisualization.Charting;
 using clientHTTP.StocksStructures;
+using System.Collections.Generic;
 
 namespace clientHTTP
 {
@@ -73,6 +74,18 @@ namespace clientHTTP
             string response =  postRequest($"{_rootAdress}/buy", JsonConvert.SerializeObject(bidAskEntry));
             BidAskEntry stockAskData = JsonConvert.DeserializeObject<BidAskEntry>(response);
             return stockAskData;
+        }
+
+        public List<BidAskEntry> getBidPrices()
+        {
+            string response = getRequest($"{_rootAdress}/getBidPrices");
+            return JsonConvert.DeserializeObject<List<BidAskEntry>>(response);
+        }
+
+        public List<BidAskEntry> getAskPrices() {
+
+            string response = getRequest($"{_rootAdress}/getAskPrices");
+            return JsonConvert.DeserializeObject<List<BidAskEntry>>(response);
         }
 
 

@@ -4,6 +4,22 @@
 
 namespace stockService {
 
+class JsonObjectWrapper {
+
+public:
+  explicit JsonObjectWrapper(const Json::object &jsonObject)
+      : jsonObject{jsonObject} {}
+
+  template <typename T> T getField(std::string_view nameOfTheField) const {
+    return jsonObject.contains(nameOfTheField)
+               ? Json::value_to<T>(jsonObject.at(nameOfTheField))
+               : T();
+  }
+
+private:
+  const Json::object &jsonObject;
+};
+
 void tag_invoke(boost::json::value_from_tag, boost::json::value &jsonValue,
                 Credentials const &credentials) {
   jsonValue = {{"username", credentials.username},
@@ -22,16 +38,17 @@ Credentials tag_invoke(boost::json::value_to_tag<Credentials>,
 BidAskPrice tag_invoke(boost::json::value_to_tag<BidAskPrice>,
                        boost::json::value const &jsonValue) {
 
-  const auto &jsonObject = jsonValue.as_object();
-  return BidAskPrice{
-      boost::json::value_to<std::string>(jsonObject.at("stockName")),
-      boost::json::value_to<std::uint32_t>(jsonObject.at("quantity")),
-      boost::json::value_to<double>(jsonObject.at("price"))};
+  const auto &jsonObjectWrapper = JsonObjectWrapper{jsonValue.as_object()};
+  return BidAskPrice{jsonObjectWrapper.getField<std::uint64_t>("id"),
+                     jsonObjectWrapper.getField<std::string>("stockName"),
+                     jsonObjectWrapper.getField<std::uint32_t>("quantity"),
+                     jsonObjectWrapper.getField<double>("price")};
 }
 
 void tag_invoke(boost::json::value_from_tag, boost::json::value &jsonValue,
                 BidAskPrice const &bidAskPrice) {
-  jsonValue = {{"stockName", bidAskPrice.stockName},
+  jsonValue = {{"id", bidAskPrice.id},
+               {"stockName", bidAskPrice.stockName},
                {"quantity", bidAskPrice.quantity},
                {"price", bidAskPrice.price}};
 }

@@ -24,6 +24,9 @@ private:
                        const restbed::Bytes &body);
   void eventGetAskPrices(std::shared_ptr<restbed::Session> session);
   void eventGetBuyPrices(std::shared_ptr<restbed::Session> session);
+  void eventDeleteBuyCommand(std::shared_ptr<restbed::Session> session);
+  void eventDelteAskPrice(std::shared_ptr<restbed::Session> session);
+  void eventMatch(std::shared_ptr<restbed::Session> session);
 
   void setEndpoints() override;
 };
