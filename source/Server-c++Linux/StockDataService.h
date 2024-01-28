@@ -16,6 +16,7 @@ private:
   void setEventBuyCommand();
   void setEventGetBuyPrices();
   void setEventGetAskPrices();
+  void setEventMatch();
 
   void eventGetStockData(std::shared_ptr<restbed::Session> session);
   void eventLogin(std::shared_ptr<restbed::Session> session,

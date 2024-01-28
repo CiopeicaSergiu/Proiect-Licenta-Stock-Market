@@ -4,3 +4,6 @@ How to run mysql sql script:
 connect with the command above
 run this afterwards 
 source full_path
+
+
+For converting string to date: str_to_date('12-01-2023', '%d-%m-%Y')

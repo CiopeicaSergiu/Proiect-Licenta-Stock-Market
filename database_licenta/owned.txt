@@ -1,0 +1,2 @@
+insert:insert into owned(stockName, quantity, price) values ("{}", {}, {});
+deletion:delete from owned where id={};

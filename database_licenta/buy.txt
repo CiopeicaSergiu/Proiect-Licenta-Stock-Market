@@ -1,5 +1,5 @@
 insert:insert into buy(id_user, stockName, quantity, price) values ({}, "{}", {}, {});
 deletion:delete from buy where id={};
 update:update buy set quantity = '{}' where id = {};
-select:select * from buy where id_user={} and stockName="{}" and quantity={} and price={};
+select:select * from buy where id={};
 select_all:select * from buy;

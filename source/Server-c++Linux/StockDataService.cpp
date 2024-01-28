@@ -15,6 +15,7 @@
 #include "Serialize.h"
 #include "SqlExecutor.h"
 #include "SqlGenerator.h"
+#include "StockDataBuissnes.h"
 #include "Utils.h"
 #include "model/BidAskPrice.h"
 #include "model/Credentials.h"
@@ -289,9 +290,33 @@ void StockDataService::eventDelteAskPrice(
   sendResponseAndCloseSession(session, "");
 }
 
-void match(const BidAskPrice &bidStockPrice, const BidAskPrice &askStockPrice) {
+enum class MATCH_STATUS { ERROR, SUCCESS };
+
+MATCH_STATUS match(const BidAskPrice &bidStockPrice,
+                   const BidAskPrice &askStockPrice) {
+
+  if (bidStockPrice.stockName != askStockPrice.stockName) {
+    return MATCH_STATUS::ERROR;
+  }
+
+  const auto statusOfBuy = buyStock(bidStockPrice, askStockPrice);
+
+  if (statusOfBuy == STATUS::INSUFICENT_FUNDS ||
+      statusOfBuy == STATUS::INSUFICENT_FUNDS) {
+    return MATCH_STATUS::ERROR;
+  }
+
+  return MATCH_STATUS::SUCCESS;
 }
 
+void StockDataService::setEventMatch() {
+  resources.emplace_back(std::make_shared<restbed::Resource>());
+  resources.back()->set_path("/match");
+  resources.back()->set_method_handler(
+      "POST", [this](std::shared_ptr<restbed::Session> session) {
+        eventMatch(session);
+      });
+}
 void StockDataService::eventMatch(std::shared_ptr<restbed::Session> session) {
 
   const auto request = session->get_request();
@@ -323,9 +348,10 @@ void StockDataService::eventMatch(std::shared_ptr<restbed::Session> session) {
   const auto askPrices = toBidAskPrices(queryResultAsk);
   const auto bidPrices = toBidAskPrices(queryResultBuy);
 
-  match(bidPrices.front(), askPrices.front());
+  const auto statusOfMatch = match(bidPrices.front(), askPrices.front());
 
-  sendResponseAndCloseSession(session, "");
+  sendResponseAndCloseSession(
+      session, statusOfMatch == MATCH_STATUS::SUCCESS ? "SUCCESS" : "ERROR");
 }
 
 void StockDataService::setEndpoints() {
@@ -335,4 +361,5 @@ void StockDataService::setEndpoints() {
   setEventBuyCommand();
   setEventGetBuyPrices();
   setEventGetAskPrices();
+  setEventMatch();
 }

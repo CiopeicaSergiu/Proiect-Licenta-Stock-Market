@@ -1,4 +1,4 @@
-add_library(server STATIC StockDataService.cpp)
+add_library(server STATIC StockDataService.cpp StockDataBuissnes.cpp)
 
 
 target_include_directories(server PUBLIC  ../../external/restbed/distribution/include

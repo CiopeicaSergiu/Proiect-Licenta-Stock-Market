@@ -1,0 +1,2 @@
+select:select * from accounts where id_user;
+update:update buy set funds = {}, last_transaction = curdate() where id_user = {};
