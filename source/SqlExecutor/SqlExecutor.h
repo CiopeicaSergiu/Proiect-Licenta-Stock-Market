@@ -27,8 +27,8 @@ struct SubTable {
   explicit SubTable(const std::vector<std::string> &columnNamePassed);
 };
 
-std::vector<stockService::BidAskPrice>
-toBidAskPrices(const SubTable &queryResult);
+std::vector<stockService::BidAskPrice> toBidPrices(const SubTable &queryResult);
+std::vector<stockService::BidAskPrice> toAskPrices(const SubTable &queryResult);
 
 struct ConnectionSettings {
   std::string host;

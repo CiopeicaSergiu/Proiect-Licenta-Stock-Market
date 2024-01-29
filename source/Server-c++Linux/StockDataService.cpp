@@ -200,7 +200,7 @@ void StockDataService::eventGetAskPrices(
       sqlGeneratorAskPrice.prepareStatement<utils::Operations::select_all>(),
       queryResultAsk);
 
-  const auto bidAskPrices = toBidAskPrices(queryResultAsk);
+  const auto bidAskPrices = toAskPrices(queryResultAsk);
 
   if (not bidAskPrices.empty()) {
     sendResponseAndCloseSession(
@@ -217,16 +217,14 @@ void StockDataService::eventGetBuyPrices(
 
   utils::SqlGenerator sqlGeneratorBuy("./database_licenta/buy.txt");
 
-  utils::SubTable queryResultBuy{{"id", "stockName", "quantity", "price"}};
-
-  const std::string selectAllStatement =
-      sqlGeneratorBuy.prepareStatement<utils::Operations::select_all>();
+  utils::SubTable queryResultBuy{
+      {"id_user", "id", "stockName", "quantity", "price"}};
 
   sqlExecutor.executeStatement(
       sqlGeneratorBuy.prepareStatement<utils::Operations::select_all>(),
       queryResultBuy);
 
-  const auto bidAskPrices = toBidAskPrices(queryResultBuy);
+  const auto bidAskPrices = toBidPrices(queryResultBuy);
 
   if (not bidAskPrices.empty()) {
     sendResponseAndCloseSession(
@@ -313,7 +311,7 @@ void StockDataService::setEventMatch() {
   resources.emplace_back(std::make_shared<restbed::Resource>());
   resources.back()->set_path("/match");
   resources.back()->set_method_handler(
-      "POST", [this](std::shared_ptr<restbed::Session> session) {
+      "PATCH", [this](std::shared_ptr<restbed::Session> session) {
         eventMatch(session);
       });
 }
@@ -341,12 +339,12 @@ void StockDataService::eventMatch(std::shared_ptr<restbed::Session> session) {
       {"id_user", "id", "stockName", "quantity", "price"}};
 
   sqlExecutor.executeStatement(
-      sqlGeneratorAskPrice.prepareStatement<utils::Operations::select>(
+      sqlGeneratorBuy.prepareStatement<utils::Operations::select>(
           std::stol(askCommandId)),
       queryResultBuy);
 
-  const auto askPrices = toBidAskPrices(queryResultAsk);
-  const auto bidPrices = toBidAskPrices(queryResultBuy);
+  const auto askPrices = toAskPrices(queryResultAsk);
+  const auto bidPrices = toBidPrices(queryResultBuy);
 
   const auto statusOfMatch = match(bidPrices.front(), askPrices.front());
 

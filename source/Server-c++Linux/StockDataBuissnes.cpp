@@ -62,6 +62,28 @@ void insertOwnedStock(const std::uint64_t userId, BidAskPrice newAquiredStock) {
           newAquiredStock.price));
 }
 
+void deleteBuyCommandByCommandId(const std::uint64_t buyCommandId) {
+  utils::SqlExecutor sqlExecutor(credentialsDataBase,
+                                 connectionSettingsDataBase);
+
+  utils::SqlGenerator sqlGeneratorBuy("./database_licenta/buy.txt");
+
+  sqlExecutor.executeStatement(
+      sqlGeneratorBuy.prepareStatement<utils::Operations::deletion>(
+          buyCommandId));
+}
+
+void deleteAskPriceEntryByAskPriceId(const std::uint64_t askPriceId) {
+  utils::SqlExecutor sqlExecutor(credentialsDataBase,
+                                 connectionSettingsDataBase);
+
+  utils::SqlGenerator sqlGeneratorBuy("./database_licenta/askPrices.txt");
+
+  sqlExecutor.executeStatement(
+      sqlGeneratorBuy.prepareStatement<utils::Operations::deletion>(
+          askPriceId));
+}
+
 STATUS buyStock(const BidAskPrice &bidPrice, const BidAskPrice &askPrice) {
 
   utils::SqlExecutor sqlExecutor(credentialsDataBase,
@@ -87,6 +109,8 @@ STATUS buyStock(const BidAskPrice &bidPrice, const BidAskPrice &askPrice) {
 
   updateAccountBalanceByUserId(userId, accountBalance - askPrice.price);
   insertOwnedStock(userId, askPrice);
+  deleteBuyCommandByCommandId(bidPrice.id);
+  deleteAskPriceEntryByAskPriceId(askPrice.id);
 
   return STATUS::SUCCESS;
 }

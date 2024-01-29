@@ -1,2 +1,3 @@
 insert:insert into askPrice(id, stockName, quantity, price) values ({}, "{}", {}, {});
 select_all:select * from askPrice;
+select:select * from askPrice where id={};

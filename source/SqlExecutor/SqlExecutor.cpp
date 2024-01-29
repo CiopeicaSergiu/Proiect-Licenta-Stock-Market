@@ -44,7 +44,7 @@ void SqlExecutor::executeStatement(const std::string &statement) {
 }
 
 std::vector<stockService::BidAskPrice>
-toBidAskPrices(const SubTable &queryResult) {
+toAskPrices(const SubTable &queryResult) {
 
   if (queryResult.columnsName.size() != 4) {
     return {};
@@ -58,6 +58,27 @@ toBidAskPrices(const SubTable &queryResult) {
         std::stoul(queryResult.entries.at(i)), queryResult.entries.at(i + 1),
         (std::uint32_t)std::stoul(queryResult.entries.at(i + 2)),
         std::stod(queryResult.entries.at(i + 3))});
+  }
+
+  return bidAskPrices;
+}
+
+std::vector<stockService::BidAskPrice>
+toBidPrices(const SubTable &queryResult) {
+
+  if (queryResult.columnsName.size() != 5) {
+    return {};
+  }
+
+  std::vector<stockService::BidAskPrice> bidAskPrices;
+  bidAskPrices.reserve(queryResult.entries.size() / 5);
+
+  for (size_t i = 0; i < queryResult.entries.size(); i += 5) {
+    bidAskPrices.push_back(stockService::BidAskPrice{
+        std::stoul(queryResult.entries.at(i + 1)),
+        queryResult.entries.at(i + 2),
+        (std::uint32_t)std::stoul(queryResult.entries.at(i + 3)),
+        std::stod(queryResult.entries.at(i + 4))});
   }
 
   return bidAskPrices;
