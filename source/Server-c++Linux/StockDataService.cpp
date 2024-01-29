@@ -131,14 +131,17 @@ void StockDataService::eventLogin(std::shared_ptr<restbed::Session> session,
   }
 
   if (not queryTable.entries.empty()) {
-    sendResponseAndCloseSession(session, "Loged in succesfully");
+    sendResponseAndCloseSession(session, queryTable.entries.front());
   } else {
-    sendUnfoundAndCloseSession(session);
+    sendResponseAndCloseSession(session, "Wrong username or password!!");
   }
 }
 
 void StockDataService::eventBuyCommand(
     std::shared_ptr<restbed::Session> session, const restbed::Bytes &body) {
+
+  const auto request = session->get_request();
+  const auto userId = request->get_query_parameter("user_id");
 
   const Json::value jsonValue = utils::toBoostValue(utils::to_string(body));
 
@@ -154,12 +157,18 @@ void StockDataService::eventBuyCommand(
 
     sqlExecutor.executeStatement(
         sqlGenerator.prepareStatement<utils::Operations::insert>(
-            99, bidAskPrice.stockName, bidAskPrice.quantity,
+            userId, bidAskPrice.stockName, bidAskPrice.quantity,
             bidAskPrice.price));
 
+    std::string additionalQuery =
+        sqlGenerator.prepareStatement<utils::Operations::additional_select>(
+            userId, bidAskPrice.stockName, bidAskPrice.quantity,
+            bidAskPrice.price);
+
     sqlExecutor.executeStatement(
-        sqlGenerator.prepareStatement<utils::Operations::select>(
-            99, bidAskPrice.stockName, bidAskPrice.quantity, bidAskPrice.price),
+        sqlGenerator.prepareStatement<utils::Operations::additional_select>(
+            userId, bidAskPrice.stockName, bidAskPrice.quantity,
+            bidAskPrice.price),
         queryResult);
   }
 
@@ -171,16 +180,23 @@ void StockDataService::eventBuyCommand(
   const auto askPriceForStockJson =
       requestToPriceApi(bidAskPrice.stockName, bidAskPrice.quantity);
 
-  const auto askPriceForStock =
+  auto askPriceForStock =
       Json::value_to<BidAskPrice>(utils::toBoostValue(askPriceForStockJson));
+
+  askPriceForStock.id = std::stol(queryResult.entries.front());
+  askPriceForStock.stockName.erase(
+      std::remove(askPriceForStock.stockName.begin(),
+                  askPriceForStock.stockName.end(), '\\'),
+      askPriceForStock.stockName.end());
 
   sqlExecutor.executeStatement(
       sqlGenerator.prepareStatement<utils::Operations::insert>(
-          99, askPriceForStock.stockName, askPriceForStock.quantity,
-          askPriceForStock.price));
+          askPriceForStock.id, askPriceForStock.stockName,
+          askPriceForStock.quantity, askPriceForStock.price));
 
   if (not askPriceForStockJson.empty()) {
-    sendResponseAndCloseSession(session, askPriceForStockJson);
+    sendResponseAndCloseSession(
+        session, Json::serialize(Json::value_from(askPriceForStock)));
   } else {
     sendUnfoundAndCloseSession(session);
   }
@@ -332,7 +348,7 @@ void StockDataService::eventMatch(std::shared_ptr<restbed::Session> session) {
 
   sqlExecutor.executeStatement(
       sqlGeneratorAskPrice.prepareStatement<utils::Operations::select>(
-          std::stol(bidCommandId)),
+          std::stol(askCommandId)),
       queryResultAsk);
 
   utils::SubTable queryResultBuy{
@@ -340,7 +356,7 @@ void StockDataService::eventMatch(std::shared_ptr<restbed::Session> session) {
 
   sqlExecutor.executeStatement(
       sqlGeneratorBuy.prepareStatement<utils::Operations::select>(
-          std::stol(askCommandId)),
+          std::stol(bidCommandId)),
       queryResultBuy);
 
   const auto askPrices = toAskPrices(queryResultAsk);

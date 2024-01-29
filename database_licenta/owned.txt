@@ -1,2 +1,2 @@
-insert:insert into owned(stockName, quantity, price) values ("{}", {}, {});
+insert:insert into owned(id_user, stockName, quantity, price, buy_date) values ({}, "{}", {}, {}, curdate());
 deletion:delete from owned where id={};

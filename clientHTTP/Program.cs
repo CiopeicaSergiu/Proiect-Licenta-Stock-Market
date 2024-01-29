@@ -16,7 +16,7 @@ namespace clientHTTP
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Buy());
+            Application.Run(new Login());
         }
     }
 }

@@ -35,6 +35,8 @@ Operations SqlGenerator::stringToOperation(const std::string &operationString) {
     return Operations::select;
   } else if (operationString == "select_all") {
     return Operations::select_all;
+  } else if (operationString == "additional_select") {
+    return Operations::additional_select;
   }
 
   return Operations::none;

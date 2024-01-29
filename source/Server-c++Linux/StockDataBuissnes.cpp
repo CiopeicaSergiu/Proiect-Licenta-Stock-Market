@@ -20,7 +20,7 @@ double getAccountBalanceByUserId(const std::uint64_t userId) {
   utils::SqlExecutor sqlExecutor(credentialsDataBase,
                                  connectionSettingsDataBase);
 
-  utils::SqlGenerator sqlGeneratorAccounts("./database_licenta/accounts.txt");
+  utils::SqlGenerator sqlGeneratorAccounts("./database_licenta/account.txt");
 
   utils::SubTable queryAccounts{
       {"id_user", "fund_name", "funds", "last_transaction"}};
@@ -29,7 +29,7 @@ double getAccountBalanceByUserId(const std::uint64_t userId) {
       sqlGeneratorAccounts.prepareStatement<utils::Operations::select>(userId),
       queryAccounts);
 
-  return std::stod(queryAccounts.entries[AccountsEntry::fund_name]);
+  return std::stod(queryAccounts.entries[AccountsEntry::funds]);
 }
 
 void updateAccountBalanceByUserId(const std::uint64_t userId,
@@ -42,7 +42,7 @@ void updateAccountBalanceByUserId(const std::uint64_t userId,
   utils::SqlExecutor sqlExecutor(credentialsDataBase,
                                  connectionSettingsDataBase);
 
-  utils::SqlGenerator sqlGeneratorAccounts("./database_licenta/accounts.txt");
+  utils::SqlGenerator sqlGeneratorAccounts("./database_licenta/account.txt");
 
   sqlExecutor.executeStatement(
       sqlGeneratorAccounts.prepareStatement<utils::Operations::update>(
@@ -77,7 +77,7 @@ void deleteAskPriceEntryByAskPriceId(const std::uint64_t askPriceId) {
   utils::SqlExecutor sqlExecutor(credentialsDataBase,
                                  connectionSettingsDataBase);
 
-  utils::SqlGenerator sqlGeneratorBuy("./database_licenta/askPrices.txt");
+  utils::SqlGenerator sqlGeneratorBuy("./database_licenta/askPrice.txt");
 
   sqlExecutor.executeStatement(
       sqlGeneratorBuy.prepareStatement<utils::Operations::deletion>(

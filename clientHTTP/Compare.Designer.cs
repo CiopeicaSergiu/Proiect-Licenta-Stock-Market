@@ -28,11 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this._compareA = new System.Windows.Forms.ComboBox();
             this._compareB = new System.Windows.Forms.ComboBox();
             this._addStockTextBox = new System.Windows.Forms.TextBox();
@@ -66,6 +66,7 @@
             this._addStockTextBox.Name = "_addStockTextBox";
             this._addStockTextBox.Size = new System.Drawing.Size(100, 20);
             this._addStockTextBox.TabIndex = 3;
+            this._addStockTextBox.Text = "a";
             // 
             // _addButton
             // 
@@ -79,22 +80,22 @@
             // 
             // _compareChart
             // 
-            chartArea4.Name = "ChartArea1";
-            this._compareChart.ChartAreas.Add(chartArea4);
-            legend7.Name = "StockA";
-            legend8.Name = "StockB";
-            this._compareChart.Legends.Add(legend7);
-            this._compareChart.Legends.Add(legend8);
+            chartArea1.Name = "ChartArea1";
+            this._compareChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "StockA";
+            legend2.Name = "StockB";
+            this._compareChart.Legends.Add(legend1);
+            this._compareChart.Legends.Add(legend2);
             this._compareChart.Location = new System.Drawing.Point(320, 30);
             this._compareChart.Name = "_compareChart";
-            series7.ChartArea = "ChartArea1";
-            series7.Legend = "StockA";
-            series7.Name = "StockA";
-            series8.ChartArea = "ChartArea1";
-            series8.Legend = "StockA";
-            series8.Name = "StockB";
-            this._compareChart.Series.Add(series7);
-            this._compareChart.Series.Add(series8);
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "StockA";
+            series1.Name = "StockA";
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "StockA";
+            series2.Name = "StockB";
+            this._compareChart.Series.Add(series1);
+            this._compareChart.Series.Add(series2);
             this._compareChart.Size = new System.Drawing.Size(960, 561);
             this._compareChart.TabIndex = 5;
             this._compareChart.Text = "Compare Stocks";

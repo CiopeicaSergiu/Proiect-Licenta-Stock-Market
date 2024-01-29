@@ -64,5 +64,11 @@ namespace clientHTTP
             this.Hide();
             new Compare().Show();
         }
+
+        private void openBuyWindow(object sender, EventArgs e)
+        {
+            this.Hide();
+            new Buy().Show();
+        }
     }
 }

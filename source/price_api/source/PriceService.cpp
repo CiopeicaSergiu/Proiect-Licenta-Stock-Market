@@ -3,6 +3,7 @@
 #include "PriceGenerator.h"
 #include "RequestStockData.h"
 #include "Serialize.h"
+#include "TimeConverter.h"
 #include "model/BidAskPrice.h"
 #include "parsing.h"
 #include <boost/json/serialize.hpp>
@@ -27,8 +28,22 @@ void PriceService::eventGeneratePrice(
 
   time_t secondsUntilNow = time(0);
 
-  auto data = requestGoogle.requestStockData(secondsUntilNow,
-                                             secondsUntilNow + ONE_DAY, "1d");
+  const std::string date = converter::dateTime::unixTimeToDate(secondsUntilNow);
+
+  std::string data;
+  std::string possibleStatus;
+  int maximumRetries = 5;
+
+  do {
+    data = requestGoogle.requestStockData(secondsUntilNow,
+                                          secondsUntilNow + ONE_DAY, "1d");
+    possibleStatus = data.substr(0, 3);
+
+    if (possibleStatus == "404") {
+      secondsUntilNow -= ONE_DAY;
+    }
+
+  } while (--maximumRetries);
 
   auto stocksData = parsing::parseStockData(data);
 

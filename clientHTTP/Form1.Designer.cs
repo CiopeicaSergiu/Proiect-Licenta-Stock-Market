@@ -40,6 +40,8 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this._compareButton = new System.Windows.Forms.Button();
+            this._buyButton = new System.Windows.Forms.Button();
+            this._sellButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this._dataGridViewStockData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -138,11 +140,32 @@
             this._compareButton.UseVisualStyleBackColor = true;
             this._compareButton.Click += new System.EventHandler(this.openCompareWindow);
             // 
+            // _buyButton
+            // 
+            this._buyButton.Location = new System.Drawing.Point(1298, 339);
+            this._buyButton.Name = "_buyButton";
+            this._buyButton.Size = new System.Drawing.Size(75, 23);
+            this._buyButton.TabIndex = 13;
+            this._buyButton.Text = "Buy";
+            this._buyButton.UseVisualStyleBackColor = true;
+            this._buyButton.Click += new System.EventHandler(this.openBuyWindow);
+            // 
+            // _sellButton
+            // 
+            this._sellButton.Location = new System.Drawing.Point(1298, 369);
+            this._sellButton.Name = "_sellButton";
+            this._sellButton.Size = new System.Drawing.Size(75, 23);
+            this._sellButton.TabIndex = 14;
+            this._sellButton.Text = "Sell";
+            this._sellButton.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1584, 761);
+            this.Controls.Add(this._sellButton);
+            this.Controls.Add(this._buyButton);
             this.Controls.Add(this._compareButton);
             this.Controls.Add(this._openGraphWindow);
             this.Controls.Add(this._dataGridViewStockData);
@@ -177,6 +200,8 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Button _compareButton;
+        private System.Windows.Forms.Button _buyButton;
+        private System.Windows.Forms.Button _sellButton;
     }
 }
 

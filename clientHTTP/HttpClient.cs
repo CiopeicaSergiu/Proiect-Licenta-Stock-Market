@@ -8,6 +8,7 @@ using clientHTTP.Utilitare;
 using System.Windows.Forms.DataVisualization.Charting;
 using clientHTTP.StocksStructures;
 using System.Collections.Generic;
+using System.Security.Policy;
 
 namespace clientHTTP
 {
@@ -59,6 +60,13 @@ namespace clientHTTP
             return new StreamReader(response.GetResponseStream()).ReadToEnd();
         }
 
+        private string patchRequest(string url)
+        {
+            var request = WebRequest.Create(url);
+            request.Method = "PATCH";
+            return new StreamReader(request.GetResponse().GetResponseStream()).ReadToEnd();
+        }
+
         public string getStockData(string stockName, string startTime, string endTime)
         {
             return getRequest($"{_rootAdress}/{stockName}?startTime={startTime}&endTime={endTime}");
@@ -71,7 +79,7 @@ namespace clientHTTP
 
         public BidAskEntry sendBuyRequest(BidAskEntry bidAskEntry)
         {
-            string response =  postRequest($"{_rootAdress}/buy", JsonConvert.SerializeObject(bidAskEntry));
+            string response = postRequest($"{_rootAdress}/buy?user_id={UserData.getUserData().UserId}", JsonConvert.SerializeObject(bidAskEntry));
             BidAskEntry stockAskData = JsonConvert.DeserializeObject<BidAskEntry>(response);
             return stockAskData;
         }
@@ -82,10 +90,17 @@ namespace clientHTTP
             return JsonConvert.DeserializeObject<List<BidAskEntry>>(response);
         }
 
-        public List<BidAskEntry> getAskPrices() {
+        public List<BidAskEntry> getAskPrices()
+        {
 
             string response = getRequest($"{_rootAdress}/getAskPrices");
             return JsonConvert.DeserializeObject<List<BidAskEntry>>(response);
+        }
+
+        public string sendMatchRequest(uint idBid, uint idAsk)
+        {
+            return patchRequest($"{_rootAdress}/match?id_buy={idBid}&id_ask={idAsk}");
+
         }
 
 

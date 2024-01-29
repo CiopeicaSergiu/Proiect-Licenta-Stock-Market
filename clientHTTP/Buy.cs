@@ -21,15 +21,14 @@ namespace clientHTTP
         private List<BidAskEntry> _ask;
         private DataTable _table;
         private DataTable _tableAskPrice;
-        private int _selectedRowIndex;
+        private int _selectedRowIndexBid;
+        private int _selectedRowIndexAsk;
         private HttpClient _httpClient;
 
 
         public Buy()
         {
-            _selectedRowIndex = 0;
-            _bid = new List<BidAskEntry>();
-            _ask = new List<BidAskEntry>();
+            _selectedRowIndexBid = 0;
             _table = new DataTable();
             _tableAskPrice = new DataTable();
 
@@ -38,7 +37,7 @@ namespace clientHTTP
             setUpTables();
             InitializeComponent();
             setUpPopularOptions();
-            
+
             _tableBid.DataSource = _table;
             _tableAsk.DataSource = _tableAskPrice;
             initializeBidPrices();
@@ -47,17 +46,18 @@ namespace clientHTTP
 
         private void initializeBidPrices()
         {
-            var bidPrices = _httpClient.getBidPrices();
-            foreach (var bidPrice in bidPrices)
+             _bid = _httpClient.getBidPrices();
+            foreach (var bidPrice in _bid)
             {
                 _table.Rows.Add(bidPrice.stockName, bidPrice.price, bidPrice.quantity);
             }
 
         }
 
-        private void initializeAskPrices() { 
-            var askPrices = _httpClient.getAskPrices();
-            foreach (var askPrice in askPrices)
+        private void initializeAskPrices()
+        {
+            _ask = _httpClient.getAskPrices();
+            foreach (var askPrice in _ask)
             {
                 _tableAskPrice.Rows.Add(askPrice.stockName, askPrice.price, askPrice.quantity);
             }
@@ -75,7 +75,7 @@ namespace clientHTTP
         }
 
         private void setUpPopularOptions()
-        { 
+        {
             _popularOptions.Items.Add("goog");
         }
 
@@ -90,32 +90,44 @@ namespace clientHTTP
             bidAskEntry.price = Double.Parse(_priceTextBox.Text);
             bidAskEntry.quantity = uint.Parse(_quantityTextBox.Text);
             bidAskEntry.stockName = _securityTextBox.Text;
+            _bid.Add(bidAskEntry);
             var stockAskPrice = _httpClient.sendBuyRequest(bidAskEntry);
 
-
             _tableAskPrice.Rows.Add(stockAskPrice.stockName, stockAskPrice.price, stockAskPrice.quantity);
+            _ask.Add(stockAskPrice);
 
         }
 
         private void deleteCommand(object sender, EventArgs e)
         {
-            if (_selectedRowIndex == _table.Rows.Count)
+            if (_selectedRowIndexBid == _table.Rows.Count)
             {
                 return;
             }
 
-            _table.Rows.RemoveAt(_selectedRowIndex);
+            _table.Rows.RemoveAt(_selectedRowIndexBid);
+            _bid.RemoveAt(_selectedRowIndexBid);
         }
 
         private void clickedCell(object sender, DataGridViewCellEventArgs e)
         {
-            _selectedRowIndex = e.RowIndex;
+            _selectedRowIndexBid = e.RowIndex;
         }
 
         private void selectPopularOption(object sender, EventArgs e)
         {
 
             _securityTextBox.Text = (string)_popularOptions.SelectedItem;
+        }
+
+        private void matchBidAskEntry(object sender, EventArgs e)
+        {
+            _httpClient.sendMatchRequest(_bid.ElementAt(_selectedRowIndexBid).id, _ask.ElementAt(_selectedRowIndexAsk).id);
+        }
+
+        private void clickedAskTable(object sender, DataGridViewCellEventArgs e)
+        {
+            _selectedRowIndexAsk = e.RowIndex;
         }
     }
 

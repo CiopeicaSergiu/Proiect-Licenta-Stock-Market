@@ -88,6 +88,7 @@
     <Compile Include="Structures\Credentials.cs" />
     <Compile Include="Utilitare\Settings.cs" />
     <Compile Include="Utilitare\StockConvertor.cs" />
+    <Compile Include="Utilitare\UserData.cs" />
     <Compile Include="Utilitare\Validator.cs" />
     <EmbeddedResource Include="Buy.resx">
       <DependentUpon>Buy.cs</DependentUpon>

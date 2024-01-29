@@ -42,6 +42,8 @@ namespace clientHTTP
             var stockAList = StockConvertor.convertFromHttpResponseToArray(stockA);
             var stockBList = StockConvertor.convertFromHttpResponseToArray(stockB);
 
+            _compareChart.Series.Clear();
+
             for (var i = 0; i < stockAList.Count; ++i)
             {
                 _compareChart.Series["StockA"].Points.AddXY(stockAList[i].Date, Double.Parse(stockAList[i].High));

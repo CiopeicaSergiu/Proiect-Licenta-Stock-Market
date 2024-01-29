@@ -32,12 +32,17 @@ namespace clientHTTP
         private void loginEvent(object sender, EventArgs e)
         {
             string loginStatus = _httpClient.login(new Credentials(_username.Text, _password.Text));
-            _statusTextBox.Text = loginStatus;
 
-            if (loginStatus == "Loged in succesfully")
+
+            if (loginStatus != "Wrong username or password!!")
             {
+                UserData.setUserDataOnce(_username.Text, uint.Parse(loginStatus));
                 this.Hide();
                 new Form1().Show();
+            }
+            else
+            {
+                _statusTextBox.Text = loginStatus;
             }
         }
     }

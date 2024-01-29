@@ -139,6 +139,7 @@
             this._tableAsk.Name = "_tableAsk";
             this._tableAsk.Size = new System.Drawing.Size(1169, 274);
             this._tableAsk.TabIndex = 12;
+            this._tableAsk.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.clickedAskTable);
             // 
             // _deleteCommand
             // 
@@ -176,6 +177,7 @@
             this._match.TabIndex = 16;
             this._match.Text = "Match";
             this._match.UseVisualStyleBackColor = true;
+            this._match.Click += new System.EventHandler(this.matchBidAskEntry);
             // 
             // Buy
             // 

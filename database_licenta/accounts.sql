@@ -9,5 +9,5 @@ CREATE TABLE accounts(
 
 --insert into accounts(id_user, fund_name, funds, last_transaction) values (1, "test", 12345.123, curdate());
 select @userId := id from users where username = "Sergiu";
-insert into accounts(id_user, fund_name, funds, last_transaction) values (@userId, "test", 12345.123, curdate());
+insert into accounts(id_user, fund_name, funds, last_transaction) values (@userId, "test", 999999999.999, curdate());
 commit;
